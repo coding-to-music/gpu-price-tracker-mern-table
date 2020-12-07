@@ -11,9 +11,10 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 app.use(cors());
+app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
-// MongoDB connection
+// Connect to DB
 const uri = process.env.ATLAS_URI;
 
 mongoose.connect(uri, {
@@ -28,10 +29,10 @@ db.once('open', () => {
   console.log('Connected to MongoDB datebase!');
 });
 
-// index route
-// app.get('/', (req, res) => {
-  
-// })
+// API routes
+const routes = require('./routes/index');
+app.use('/', routes);
+
 
 // start server
 app.listen(port, () => {
