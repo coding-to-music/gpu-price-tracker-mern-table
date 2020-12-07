@@ -2,12 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-// .env file
+const axios = require('axios');
+const cheerio = require('cheerio');
+
 require("dotenv").config();
 
-// express app
-const app = express();
 const port = process.env.PORT || 5000;
+const app = express();
 
 app.use(cors());
 app.use(express.json());
@@ -27,6 +28,12 @@ db.once('open', () => {
   console.log('Connected to MongoDB datebase!');
 });
 
+// index route
+// app.get('/', (req, res) => {
+  
+// })
+
+// start server
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });

@@ -7,4 +7,11 @@ const productSchema = new Schema({
     type: String,
     unique: true,
   },
+  brand: {
+    type: String,
+  }
 });
+
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = Product;
