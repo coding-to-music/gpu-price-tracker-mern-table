@@ -1,9 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-module.exports = async (req, res) => {
-	const { query } = req.query;
-
+const scrapeAllGpus = async () => {
 	try {
 		const response = await axios.get('https://www.newegg.ca/Desktop-Graphics-Cards/SubCategory/ID-48?PageSize=96');
 
@@ -13,32 +11,37 @@ module.exports = async (req, res) => {
 			normalizeWhitespace: true,
 		});
 
-    // scrape number of pages
+		// scrape number of pages
 		var pages = $('span[class="list-tool-pagination-text"] > strong').text();
 		var numOfPages = pages.substring(pages.lastIndexOf('/') + 1);
 
-    // load every page on newegg
-		for (let i = 1; i <= 1; i++) {
+		// load every page on newegg
+		for (let i = 1; i <= numOfPages; i++) {
 			const page = await axios.get(
 				`https://www.newegg.ca/Desktop-Graphics-Cards/SubCategory/ID-48/Page-${i}?PageSize=96`
 			);
 
-      // scrape gpu name and price
+			// scrape gpu details
 			$('div[class="item-cell"]').each((index, element) => {
-        var title = $(element).find('.item-img > img').attr('title');
+				var gpu = {};
 
-        const priceData = $(element).find('.price-current');
-        var price = (+priceData.find('strong').text()) + (+priceData.find('sup').text());
+				gpu.title = $(element).find('.item-img > img').attr('title');
 
-        gpus.push({
-          title: title,
-          price: price,
-        });
+				const priceData = $(element).find('.price-current');
+				gpu.price = +priceData.find('strong').text() + +priceData.find('sup').text();
+
+				gpu.brand = $(element).find('.item-brand > img').attr('title');
+
+				gpu.link = $(element).find('.item-info > a').attr('href');
+
+				gpus.push(gpu);
 			});
-    }
-    console.log(gpus);
-
+		}
+    return gpus;
+    
 	} catch (err) {
 		console.log(err);
 	}
 };
+
+module.exports = scrapeAllGpus();

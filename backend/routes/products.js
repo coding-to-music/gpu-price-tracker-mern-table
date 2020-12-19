@@ -1,12 +1,7 @@
 const router = require('express').Router();
 
-const search = require('../scraper');
+const scraper = require('../scraper');
 
-router.get('/', (req, res) => {
-	res.send('products page');
-	console.log('products!');
-});
-
-router.route('/test').get(search);
+// router.route('/').get(scraper);
 
 module.exports = router;
