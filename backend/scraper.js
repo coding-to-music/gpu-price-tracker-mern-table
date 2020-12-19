@@ -1,7 +1,8 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const scrapeAllGpus = async () => {
+module.exports = async (req,res) => {
+  console.log('Scraping Newegg...')
 	try {
 		const response = await axios.get('https://www.newegg.ca/Desktop-Graphics-Cards/SubCategory/ID-48?PageSize=96');
 
@@ -37,11 +38,10 @@ const scrapeAllGpus = async () => {
 				gpus.push(gpu);
 			});
 		}
-    return gpus;
-    
+    res.json(gpus);
+    console.log('Successfully scraped Newegg!')
 	} catch (err) {
 		console.log(err);
 	}
 };
 
-module.exports = scrapeAllGpus();

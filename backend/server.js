@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
+global.mongoose = require('mongoose');
 
 const axios = require('axios');
 const cheerio = require('cheerio');
@@ -26,7 +26,7 @@ mongoose.connect(URI, {
 	useUnifiedTopology: true,
 });
 
-const db = mongoose.connection;
+global.db = mongoose.connection;
 
 db.once('open', () => {
 	console.log('Connected to MongoDB datebase!');
