@@ -47,7 +47,10 @@ module.exports = async (req, res) => {
 				gpu.brand = $(element).find('.item-brand > img').attr('title');
 
 				// find link to Newegg page
-				gpu.link = $(element).find('.item-info > a').attr('href');
+        gpu.link = $(element).find('.item-info > a').attr('href');
+        
+        // find image of gpu
+        gpu.img = $(element).find('.item-img > img').attr('src');
 
 				gpus.push(gpu);
 			});
