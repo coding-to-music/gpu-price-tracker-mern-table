@@ -1,8 +1,9 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const Gpu = require('./models/gpu.model.js');
+const schedule = require('node-schedule');
 
-module.exports = async (req, res) => {
+const scrapeAllGpus = async (req, res) => {
 	console.log('Scraping Newegg...');
 	try {
 		const response = await axios.get('https://www.newegg.ca/Desktop-Graphics-Cards/SubCategory/ID-48?PageSize=96');
@@ -47,17 +48,17 @@ module.exports = async (req, res) => {
 				gpu.brand = $(element).find('.item-brand > img').attr('title');
 
 				// find link to Newegg page
-        gpu.link = $(element).find('.item-info > a').attr('href');
-        
-        // find image of gpu
-        gpu.img = $(element).find('.item-img > img').attr('src');
+				gpu.link = $(element).find('.item-info > a').attr('href');
+
+				// find image of gpu
+				gpu.img = $(element).find('.item-img > img').attr('src');
 
 				gpus.push(gpu);
 			});
 		}
 
-		console.log(gpus.length);
-		res.json(gpus);
+		// console.log(gpus.length);
+		if (res) res.json(gpus);
 		console.log('Successfully scraped Newegg!');
 
 		gpus.forEach((gpu) => {
@@ -69,3 +70,8 @@ module.exports = async (req, res) => {
 		console.log(err);
 	}
 };
+
+// schedule scrape for every day
+const scheduleGpuScrape = schedule.scheduleJob('0 0 */1 * *', scrapeAllGpus);
+
+module.exports = scrapeAllGpus;
