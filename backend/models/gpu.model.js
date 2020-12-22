@@ -10,7 +10,7 @@ const gpuSchema = new Schema(
 			required: true,
 		},
 		brand: String,
-		price: Number,
+		price: Mixed,
 		link: String,
 		img: String,
 	},

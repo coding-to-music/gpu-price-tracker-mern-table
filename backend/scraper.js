@@ -42,7 +42,7 @@ const scrapeAllGpus = async () => {
 				var price = +priceData.find('strong').text() + +priceData.find('sup').text();
 
 				// price NaN check
-				gpu.price = isNaN(price) || !price ? 0 : price;
+				gpu.price = isNaN(price) || !price ? "Sold Out" : price;
 
 				// find brand name of gpu
 				gpu.brand = $(element).find('.item-brand > img').attr('title');

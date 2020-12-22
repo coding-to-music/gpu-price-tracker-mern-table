@@ -1,11 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const Gpu = require('../models/gpu.model');
+const router = require('express').Router();
+const gpuController = require('../controllers/gpuController');
 
-const scraper = require('../scraper');
-
-// router.route('/').get(scraper);
-
-router.get('/', scraper);
+// /gpus
+router.route('/').get(gpuController.findAll);
 
 module.exports = router;
