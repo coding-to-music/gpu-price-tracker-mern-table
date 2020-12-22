@@ -45,7 +45,9 @@ const scrapeAllGpus = async () => {
 				gpu.price = isNaN(price) || !price ? "Sold Out" : price;
 
 				// find brand name of gpu
-				gpu.brand = $(element).find('.item-brand > img').attr('title');
+        gpu.brand = $(element).find('.item-brand > img').attr('title');
+        
+        gpu.retailer = 'Newegg';
 
 				// find link to Newegg page
 				gpu.link = $(element).find('.item-info > a').attr('href');

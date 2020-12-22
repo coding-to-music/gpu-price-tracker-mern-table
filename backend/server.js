@@ -1,12 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-global.mongoose = require('mongoose');
-
-const axios = require('axios');
-const cheerio = require('cheerio');
-
-const scraper = require('./scraper');
-const Gpu = require('./models/gpu.model');
+const mongoose = require('mongoose');
 
 require('dotenv').config();
 

@@ -17,5 +17,6 @@
     "express": "^4.17.1",
     "mongoose": "^5.11.4",
     "node-schedule": "^1.3.2"
-  }
+  },
+  "heroku-postbuild": "cd client && npm install && npm run build"
 }
