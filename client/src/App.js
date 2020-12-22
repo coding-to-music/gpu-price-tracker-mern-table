@@ -3,13 +3,11 @@ import { GpuTable } from './components/GpuTable';
 import { getAllGpus } from './api';
 
 import './App.css';
+import { GpuContainer } from './components/GpuContainer';
 
 function App() {
-  console.log(getAllGpus());
 	return (
-		<div>
-			
-		</div>
+		<GpuContainer />
 	);
 }
 

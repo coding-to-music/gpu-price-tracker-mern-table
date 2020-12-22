@@ -1,28 +1,9 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React from 'react';
 import { useTable } from 'react-table';
 
-import { COLUMNS } from './columns';
-import api from '../api';
+export const GpuTable = ({ columns, data }) => {
 
-export const GpuTable = () => {
-	const [gpuData, setGpuData] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
-
-	const columns = useMemo(() => COLUMNS, []);
-
-	const getGpuData = () => {
-		 api.getAllGpus().then((data) => {
-      console.log(data);
-			setGpuData(data);
-			setIsLoading(false);
-		});
-	};
-
-	useEffect(() => {
-		getGpuData();
-	}, []);
-
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, gpuData });
+	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
 	return (
 		<table {...getTableProps()}>
