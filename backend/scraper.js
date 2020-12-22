@@ -1,9 +1,9 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const Gpu = require('./models/gpu.model.js');
+const db = require('./models/gpu.model.js');
 const schedule = require('node-schedule');
 
-const scrapeAllGpus = async (req, res) => {
+const scrapeAllGpus = async () => {
 	console.log('Scraping Newegg...');
 	try {
 		const response = await axios.get('https://www.newegg.ca/Desktop-Graphics-Cards/SubCategory/ID-48?PageSize=96');
@@ -57,12 +57,10 @@ const scrapeAllGpus = async (req, res) => {
 			});
 		}
 
-		// console.log(gpus.length);
-		if (res) res.json(gpus);
 		console.log('Successfully scraped Newegg!');
 
 		gpus.forEach((gpu) => {
-			Gpu.findOneAndUpdate({ title: gpu.title }, gpu, { upsert: true, useFindAndModify: false }, (err, doc) => {
+			db.findOneAndUpdate({ title: gpu.title }, gpu, { upsert: true, useFindAndModify: false }, (err, doc) => {
 				if (err) console.log(err);
 			});
 		});

@@ -1,11 +1,8 @@
 const { Router } = require('express');
 const router = require('express').Router();
 
-const productRoutes = require('./products');
-const scrapeRoutes = require('./scrape');
+const gpusRoutes = require('./gpus');
 
-router.use('/products', productRoutes);
-
-router.use('/scrape', scrapeRoutes);
+router.use('/gpus', gpusRoutes);
 
 module.exports = router;
