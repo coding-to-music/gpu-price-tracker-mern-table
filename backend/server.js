@@ -28,7 +28,7 @@ db.once('open', () => {
 
 // API routes
 const routes = require('./routes/index');
-app.use('/', routes);
+app.use(express.static('../client/build'));
 
 // start server
 app.listen(PORT, () => {
