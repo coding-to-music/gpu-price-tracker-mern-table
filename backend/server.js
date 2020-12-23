@@ -27,6 +27,7 @@ db.once('open', () => {
 	console.log('Connected to MongoDB datebase!');
 });
 
+// Routing for heroku
 if (process.env.NODE_ENV === 'production') {
 	// Serve any static files
 	app.use(express.static(path.join(__dirname, 'client/build')));
