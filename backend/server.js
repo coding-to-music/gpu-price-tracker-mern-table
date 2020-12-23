@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const routes = require('./routes/index');
 
-require('dotenv').config({ path: '../.env'});
+require('dotenv').config({ path: '../.env' });
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -20,15 +21,23 @@ mongoose.connect(URI, {
 	useUnifiedTopology: true,
 });
 
-global.db = mongoose.connection;
+const db = mongoose.connection;
 
 db.once('open', () => {
 	console.log('Connected to MongoDB datebase!');
 });
 
+if (process.env.NODE_ENV === 'production') {
+	// Serve any static files
+	app.use(express.static(path.join(__dirname, 'client/build')));
+	// Handle React routing, return all requests to React app
+	app.get('*', function (req, res) {
+		res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+	});
+}
+
 // API routes
-const routes = require('./routes/index');
-app.use(express.static('../client/build'));
+app.use(routes);
 
 // start server
 app.listen(PORT, () => {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-	baseURL: '/gpus',
+	baseURL: 'localhost:500/gpus',
 });
 
 export const getAllGpus = () => api.get();
