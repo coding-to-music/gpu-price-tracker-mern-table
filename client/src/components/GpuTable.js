@@ -1,37 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import MaUTable from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { useTable } from 'react-table';
 
-export const GpuTable = ({ columns, data }) => {
-
+export const GpuTable = ({ columns, data, loading }) => {
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	};
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(parseInt(event.target.value, 10));
+		setPage(0);
+  };
+  
 	return (
-		<table {...getTableProps()}>
-			<thead>
-				{headerGroups.map((headerGroup) => {
-					<tr {...headerGroup.getHeaderGroupProps()}>
-						{headerGroup.headers.map((column) => {
-							<th {...column.getHeaderProps()}>{column.render('Header')}</th>;
-						})}
-						<th></th>
-					</tr>;
-				})}
-			</thead>
-			<tbody {...getTableBodyProps()}>
-				{rows.map((row) => {
-					prepareRow(row);
-					return (
-						<tr {...row.getRowProps()}>
-							{row.cells.map((cell) => {
-								return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
-							})}
-						</tr>
-					);
-				})}
-				<tr>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
+		<MaUTable {...getTableProps()}>
+			<TableHead>
+				{headerGroups.map((headerGroup) => (
+					<TableRow {...headerGroup.getHeaderGroupProps()}>
+						{headerGroup.headers.map((column) => (
+							<TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
+						))}
+					</TableRow>
+				))}
+			</TableHead>
+			{loading ? (
+				<div style={{ display: 'flex', justifyContent: 'center' }}>
+					<CircularProgress />
+				</div>
+			) : (
+				<TableBody>
+					{rows.map((row, i) => {
+						prepareRow(row);
+						return (
+							<TableRow {...row.getRowProps()}>
+								{row.cells.map((cell) => {
+									return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>;
+								})}
+							</TableRow>
+						);
+					})}
+				</TableBody>
+			)}
+		</MaUTable>
 	);
 };

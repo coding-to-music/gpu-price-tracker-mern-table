@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 import { COLUMNS } from './columns';
 import api from '../api';
 import { GpuTable } from './GpuTable';
@@ -19,6 +21,7 @@ export const GpuContainer = () => {
 					title: gpu.title,
 					price: gpu.price,
 					brand: gpu.brand,
+					link: gpu.link,
 					retailer: gpu.retailer,
 				}));
 				setGpuData(gpuData);
@@ -30,7 +33,7 @@ export const GpuContainer = () => {
 			.finally(() => setLoading(false));
 	}, []);
 
-  const columns = useMemo(() => COLUMNS, []);
+	const columns = useMemo(() => COLUMNS, []);
 
 	if (gpuData.length === 0 && !loading) {
 		return <div>No GPU data available</div>;
@@ -38,8 +41,8 @@ export const GpuContainer = () => {
 
 	return (
 		<div>
-			{loading && <span>Fetching...</span>}
-			<GpuTable columns={columns} data={gpuData} />
+			<CssBaseline />
+			<GpuTable columns={columns} data={gpuData} loading={loading} />
 		</div>
 	);
 };
