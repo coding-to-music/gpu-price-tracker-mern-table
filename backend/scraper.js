@@ -6,7 +6,7 @@ const schedule = require('node-schedule');
 const scrapeAllGpus = async () => {
 	console.log('Scraping Newegg...');
 	try {
-		const response = await axios.get('https://www.newegg.ca/Desktop-Graphics-Cards/SubCategory/ID-48?PageSize=96');
+		const response = await axios.get('https://www.newegg.ca/p/pl?PageSize=96&N=100007708%208000&page=1');
 
 		const gpus = [];
 
@@ -23,7 +23,7 @@ const scrapeAllGpus = async () => {
 		// load every page on newegg
 		for (let i = 1; i <= numOfPages; i++) {
 			const page = await axios.get(
-				`https://www.newegg.ca/Desktop-Graphics-Cards/SubCategory/ID-48/Page-${i}?PageSize=96`
+				`https://www.newegg.ca/p/pl?PageSize=96&N=100007708%208000&page=${i}`
 			);
 
 			$ = cheerio.load(page.data, {
@@ -33,6 +33,11 @@ const scrapeAllGpus = async () => {
 			// scrape every gpu from the page
 			$('div[class="item-cell"]').each((index, element) => {
 				var gpu = {};
+
+				// find link to Newegg page
+        gpu.link = $(element).find('.item-info > a').attr('href');
+
+        if (gpu.link.includes('Combo')) return;
 
 				// find name of gpu
 				gpu.title = $(element).find('.item-img > img').attr('title');
@@ -48,9 +53,6 @@ const scrapeAllGpus = async () => {
         gpu.brand = $(element).find('.item-brand > img').attr('title');
         
         gpu.retailer = 'Newegg';
-
-				// find link to Newegg page
-				gpu.link = $(element).find('.item-info > a').attr('href');
 
 				// find image of gpu
 				gpu.img = $(element).find('.item-img > img').attr('src');
@@ -70,8 +72,5 @@ const scrapeAllGpus = async () => {
 		console.log(err);
 	}
 };
-
-// schedule scrape for every day
-const scheduleGpuScrape = schedule.scheduleJob('0 0 */1 * *', scrapeAllGpus);
 
 module.exports = scrapeAllGpus;
