@@ -1,48 +1,72 @@
 import React, { useState } from 'react';
 
 import MaUTable from '@material-ui/core/Table';
+import PropTypes from 'prop-types';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableFooter from '@material-ui/core/TableFooter';
 import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TablePaginationActions from './TablePaginationActions';
 import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { useTable } from 'react-table';
+import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
 
-export const GpuTable = ({ columns, data, loading }) => {
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
+export const GpuTable = ({ columns, data }) => {
+	const {
+		getTableProps,
+		headerGroups,
+		prepareRow,
+		page,
+		gotoPage,
+		setPageSize,
+		preGlobalFilteredRows,
+		setGlobalFilter,
+		state: { pageIndex, pageSize, selectedRowIds, globalFilter },
+	} = useTable(
+		{
+			columns,
+			data,
+    },
+    useSortBy,
+		usePagination,
+	);
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  
 	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
+		gotoPage(newPage);
 	};
 
 	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(parseInt(event.target.value, 10));
-		setPage(0);
-  };
-  
+		setPageSize(Number(event.target.value));
+	};
+
 	return (
-		<MaUTable {...getTableProps()}>
-			<TableHead>
-				{headerGroups.map((headerGroup) => (
-					<TableRow {...headerGroup.getHeaderGroupProps()}>
-						{headerGroup.headers.map((column) => (
-							<TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
-						))}
-					</TableRow>
-				))}
-			</TableHead>
-			{loading ? (
-				<div style={{ display: 'flex', justifyContent: 'center' }}>
-					<CircularProgress />
-				</div>
-			) : (
+		<TableContainer>
+			<MaUTable {...getTableProps()}>
+				<TableHead>
+					{headerGroups.map((headerGroup) => (
+						<TableRow {...headerGroup.getHeaderGroupProps()}>
+							{headerGroup.headers.map((column) => (
+								<TableCell {...column.getHeaderProps(column.getSortByToggleProps())}>
+									{column.render('Header')}
+									{column.id !== 'selection' ? (
+										<TableSortLabel
+											active={column.isSorted}
+											// react-table has a unsorted state which is not treated here
+											direction={column.isSortedDesc ? 'desc' : 'asc'}
+										/>
+									) : null}
+								</TableCell>
+							))}
+						</TableRow>
+					))}
+				</TableHead>
 				<TableBody>
-					{rows.map((row, i) => {
+					{page.map((row, i) => {
 						prepareRow(row);
 						return (
 							<TableRow {...row.getRowProps()}>
@@ -53,7 +77,26 @@ export const GpuTable = ({ columns, data, loading }) => {
 						);
 					})}
 				</TableBody>
-			)}
-		</MaUTable>
+
+				<TableFooter>
+					<TableRow>
+						<TablePagination
+							rowsPerPageOptions={[5, 10, 25, { label: 'All', value: data.length }]}
+							colSpan={3}
+							count={data.length}
+							rowsPerPage={pageSize}
+							page={pageIndex}
+							SelectProps={{
+								inputProps: { 'aria-label': 'rows per page' },
+								native: true,
+							}}
+							onChangePage={handleChangePage}
+							onChangeRowsPerPage={handleChangeRowsPerPage}
+							ActionsComponent={TablePaginationActions}
+						/>
+					</TableRow>
+				</TableFooter>
+			</MaUTable>
+		</TableContainer>
 	);
 };

@@ -8,7 +8,8 @@ import { GpuTable } from './GpuTable';
 
 export const GpuContainer = () => {
 	const [gpuData, setGpuData] = useState([]);
-	const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [skipPageReset, setSkipPageReset] = useState(false)
 
 	useEffect(() => {
 		setLoading(true);
