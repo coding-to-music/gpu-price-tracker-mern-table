@@ -1,9 +1,12 @@
 import './App.css';
 import { GpuContainer } from './components/GpuContainer';
+import { NavBar } from './components/NavBar';
 
 function App() {
 	return (
-		<GpuContainer />
+		<div>
+			<GpuContainer />
+		</div>
 	);
 }
 

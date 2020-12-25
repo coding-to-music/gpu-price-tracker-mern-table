@@ -7,17 +7,30 @@ import api from '../api';
 import { GpuTable } from './GpuTable';
 
 export const GpuContainer = () => {
-	const [gpuData, setGpuData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [skipPageReset, setSkipPageReset] = useState(false)
+  const [origData, setOrigData] = useState([]);
+	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [skipPageReset, setSkipPageReset] = useState(false);
+
+	const updateMyData = () => {
+		// We also turn on the flag to not reset the page
+		setSkipPageReset(true);
+		// const newData = origData.filter((gpu) => {
+		// 	const obj = JSON.parse(gpu);
+		// 	const values = Object.keys(obj).map(function (key) {
+		// 		return obj[key];
+		// 	});
+		// 	return values.find(a =>a.includes('asus')).length > 0
+		// });
+		// setData(newData);
+	};
 
 	useEffect(() => {
 		setLoading(true);
 		api
 			.getAllGpus()
 			.then((response) => {
-				const data = response.data;
-				const gpuData = data.map((gpu) => ({
+				const data = response.data.map((gpu) => ({
 					img: gpu.img,
 					title: gpu.title,
 					price: gpu.price,
@@ -25,10 +38,11 @@ export const GpuContainer = () => {
 					link: gpu.link,
 					retailer: gpu.retailer,
 				}));
-				setGpuData(gpuData);
+        setData(data);
+        setOrigData(data);
 			})
 			.catch((error) => {
-				setGpuData([]);
+				setData([]);
 				console.log(error);
 			})
 			.finally(() => setLoading(false));
@@ -36,14 +50,21 @@ export const GpuContainer = () => {
 
 	const columns = useMemo(() => COLUMNS, []);
 
-	if (gpuData.length === 0 && !loading) {
+	if (data.length === 0 && !loading) {
 		return <div>No GPU data available</div>;
 	}
 
 	return (
 		<div>
 			<CssBaseline />
-			<GpuTable columns={columns} data={gpuData} loading={loading} />
+			<GpuTable
+				columns={columns}
+				data={data}
+				loading={loading}
+				setData={setData}
+				updateMyData={updateMyData}
+				skipPageReset={skipPageReset}
+			/>
 		</div>
 	);
 };

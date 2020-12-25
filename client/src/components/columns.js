@@ -29,7 +29,8 @@ export const COLUMNS = [
 		Cell: (row) => {
 			const value = isNaN(row.value) ? row.value : `$${Math.round(row.value * 100) / 100}`;
 			return <div style={{ width: 200 }}>{value}</div>;
-		},
+    },
+    disableGlobalFilter: true
 	},
 	{
 		Header: 'Brand',

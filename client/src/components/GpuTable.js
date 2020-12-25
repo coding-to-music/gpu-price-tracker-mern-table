@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import MaUTable from '@material-ui/core/Table';
-import PropTypes from 'prop-types';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -11,12 +10,13 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TablePaginationActions from './TablePaginationActions';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import { NavBar } from './NavBar';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
+import { usePagination, useSortBy, useGlobalFilter, useTable } from 'react-table';
 
-export const GpuTable = ({ columns, data }) => {
+export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPageReset, setDataFilter }) => {
 	const {
 		getTableProps,
 		headerGroups,
@@ -24,16 +24,21 @@ export const GpuTable = ({ columns, data }) => {
 		page,
 		gotoPage,
 		setPageSize,
-		preGlobalFilteredRows,
 		setGlobalFilter,
-		state: { pageIndex, pageSize, selectedRowIds, globalFilter },
+		state: { pageIndex, pageSize, globalFilter },
 	} = useTable(
 		{
 			columns,
 			data,
-    },
-    useSortBy,
-		usePagination,
+			autoResetPage: !skipPageReset,
+			updateMyData,
+			initialState: {
+				globalFilter: '',
+			},
+		},
+		useGlobalFilter,
+		useSortBy,
+		usePagination
 	);
 
 	const handleChangePage = (event, newPage) => {
@@ -44,8 +49,19 @@ export const GpuTable = ({ columns, data }) => {
 		setPageSize(Number(event.target.value));
 	};
 
+	const handleDataCount = () =>
+		data.filter((a) =>
+			Object.values(a).some((e) => {
+				if (Object.prototype.toString.call(e) === '[object String]' && globalFilter !== undefined) {
+					return e.toLowerCase().includes(globalFilter.toLowerCase());
+				}
+				return globalFilter == undefined;
+			})
+		).length;
+
 	return (
 		<TableContainer>
+			<NavBar filter={globalFilter} setFilter={setGlobalFilter} updateMyData={updateMyData} />
 			<MaUTable {...getTableProps()}>
 				<TableHead>
 					{headerGroups.map((headerGroup) => (
@@ -83,7 +99,7 @@ export const GpuTable = ({ columns, data }) => {
 						<TablePagination
 							rowsPerPageOptions={[5, 10, 25, { label: 'All', value: data.length }]}
 							colSpan={3}
-							count={data.length}
+							count={handleDataCount()}
 							rowsPerPage={pageSize}
 							page={pageIndex}
 							SelectProps={{
