@@ -73,4 +73,4 @@ const scrapeAllGpus = async () => {
 	}
 };
 
-module.exports = scrapeAllGpus;
+scrapeAllGpus();

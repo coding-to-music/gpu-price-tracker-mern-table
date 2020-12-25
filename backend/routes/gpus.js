@@ -5,6 +5,4 @@ const scraper = require('../scraper')
 // /gpus
 router.route('/').get(gpuController.findAll);
 
-scraper();
-
 module.exports = router;
