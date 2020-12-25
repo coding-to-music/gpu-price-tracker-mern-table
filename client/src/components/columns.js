@@ -8,20 +8,24 @@ export const COLUMNS = [
 					<img height={100} src={row.row.original.img} />
 				</div>
 			);
-		},
+    },
+    minWidth: 150,
+    maxWidth: 150,
 	},
 	{
 		Header: 'Name',
 		accessor: 'title',
 		Cell: (row) => {
 			return (
-				<div style={{ width: 800 }}>
+				<div style={{ width: 850, padding: 20 }}>
 					<strong>
 						<a href={row.row.original.link}>{row.row.original.title}</a>
 					</strong>
 				</div>
 			);
-		},
+    },
+    minWidth: 900,
+    maxWidth: 900
 	},
 	{
 		Header: 'Price',
@@ -30,16 +34,20 @@ export const COLUMNS = [
 			const value = isNaN(row.value) ? row.value : `$${Math.round(row.value * 100) / 100}`;
 			return <div style={{ width: 200 }}>{value}</div>;
     },
-    disableGlobalFilter: true
+    disableGlobalFilter: true,
+    width: 200,
+    maxWidth: 200,
 	},
 	{
 		Header: 'Brand',
     accessor: 'brand',
-    width: 200
+    minWidth: 200,
+    maxWidth: 200
 	},
 	{
 		Header: 'Retailer',
     accessor: 'retailer',
-    width: 200
+    minWidth: 200,
+    maxWidth: 200
 	},
 ];

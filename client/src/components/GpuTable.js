@@ -11,10 +11,13 @@ import TablePaginationActions from './TablePaginationActions';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { NavBar } from './NavBar';
+import { makeStyles } from '@material-ui/core';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { usePagination, useSortBy, useGlobalFilter, useTable } from 'react-table';
+import { usePagination, useSortBy, useGlobalFilter, useTable, useAbsoluteLayout, useBlockLayout } from 'react-table';
+
+const useStyles = makeStyles((theme) => ({}));
 
 export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPageReset, setDataFilter }) => {
 	const {
@@ -38,7 +41,8 @@ export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPa
 		},
 		useGlobalFilter,
 		useSortBy,
-		usePagination
+		usePagination,
+		useBlockLayout
 	);
 
 	const handleChangePage = (event, newPage) => {
@@ -55,13 +59,14 @@ export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPa
 				if (Object.prototype.toString.call(e) === '[object String]' && globalFilter !== undefined) {
 					return e.toLowerCase().includes(globalFilter.toLowerCase());
 				}
-				return globalFilter == undefined;
+				return globalFilter === undefined;
 			})
 		).length;
 
 	return (
 		<TableContainer>
-			<NavBar filter={globalFilter} setFilter={setGlobalFilter} updateMyData={updateMyData} />
+			<NavBar filter={globalFilter} setFilter={setGlobalFilter} />
+
 			<MaUTable {...getTableProps()}>
 				<TableHead>
 					{headerGroups.map((headerGroup) => (

@@ -7,6 +7,10 @@ import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
+	navbar: {
+    background: '#ef5350',
+    position: 'relative'
+	},
 	search: {
 		position: 'relative',
 		borderRadius: theme.shape.borderRadius,
@@ -46,14 +50,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const NavBar = ({ filter, setFilter, updateMyData }) => {
+export const NavBar = ({ filter, setFilter }) => {
 	const styles = useStyles();
 
 	return (
-		<AppBar position='static'>
+		<AppBar className={styles.navbar}>
 			<Toolbar>
 				<Typography variant='h6' noWrap>
-					Material-UI
+					GPU Price Tracker
 				</Typography>
 				<div className={styles.search}>
 					<div className={styles.searchIcon}>
@@ -66,7 +70,7 @@ export const NavBar = ({ filter, setFilter, updateMyData }) => {
 							input: styles.inputInput,
 						}}
 						onChange={(e) => {
-              setFilter(e.target.value || '');
+							setFilter(e.target.value || '');
 						}}
 						inputProps={{ 'aria-label': 'search' }}
 					/>

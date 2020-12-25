@@ -13,7 +13,8 @@ const gpuSchema = new Schema(
     retailer: String,
 		price: Schema.Types.Mixed,
 		link: String,
-		img: String,
+    img: String,
+    Model: String,
 	},
 	{ timestamps: true }
 );
