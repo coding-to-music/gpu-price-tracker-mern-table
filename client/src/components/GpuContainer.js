@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { COLUMNS } from './columns';
 import api from '../api';
 import { GpuTable } from './GpuTable';
+import { NavBar } from './NavBar';
 
 export const GpuContainer = () => {
   const [origData, setOrigData] = useState([]);
@@ -57,6 +58,7 @@ export const GpuContainer = () => {
 	return (
 		<div>
 			<CssBaseline />
+      <NavBar />
 			<GpuTable
 				columns={columns}
 				data={data}

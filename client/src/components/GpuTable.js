@@ -10,14 +10,27 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TablePaginationActions from './TablePaginationActions';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { NavBar } from './NavBar';
+import Checkbox from '@material-ui/core/Checkbox';
+import { TableToolbar } from './TableToolbar';
 import { makeStyles } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import { green } from '@material-ui/core/colors';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { usePagination, useSortBy, useGlobalFilter, useTable, useAbsoluteLayout, useBlockLayout } from 'react-table';
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+	tableContainer: {
+		maxWidth: '99.1vw',
+		boxShadow: 'none',
+	},
+	plusHeader: {
+		maxWidth: '20px',
+	},
+	plusCell: {},
+}));
 
 export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPageReset, setDataFilter }) => {
 	const {
@@ -28,6 +41,7 @@ export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPa
 		gotoPage,
 		setPageSize,
 		setGlobalFilter,
+		preGlobalFilteredRows,
 		state: { pageIndex, pageSize, globalFilter },
 	} = useTable(
 		{
@@ -42,8 +56,27 @@ export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPa
 		useGlobalFilter,
 		useSortBy,
 		usePagination,
-		useBlockLayout
+		useBlockLayout,
+		(hooks) => {
+			hooks.allColumns.push((columns) => [
+				// Let's make a column for selection
+				{
+					id: 'selection',
+
+					Header: '',
+
+					Cell: ({ row }) => (
+						<div style={{ transform: 'translate(+50%, +50%)' }}>
+							<Checkbox icon={<AddIcon style={{ color: green[800] }} />} checkedIcon={<RemoveIcon />} />
+						</div>
+					),
+				},
+				...columns,
+			]);
+		}
 	);
+
+	const classes = useStyles();
 
 	const handleChangePage = (event, newPage) => {
 		gotoPage(newPage);
@@ -64,23 +97,30 @@ export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPa
 		).length;
 
 	return (
-		<TableContainer>
-			<NavBar filter={globalFilter} setFilter={setGlobalFilter} />
+		<TableContainer className={classes.tableContainer}>
+			<TableToolbar
+				preGlobalFilteredRows={preGlobalFilteredRows}
+				setGlobalFilter={setGlobalFilter}
+				globalFilter={globalFilter}
+			/>
 
 			<MaUTable {...getTableProps()}>
 				<TableHead>
 					{headerGroups.map((headerGroup) => (
 						<TableRow {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map((column) => (
-								<TableCell {...column.getHeaderProps(column.getSortByToggleProps())}>
+								<TableCell
+									{...(column.id === 'selection'
+										? column.getHeaderProps()
+										: column.getHeaderProps(column.getSortByToggleProps()))}
+								>
 									{column.render('Header')}
-									{column.id !== 'selection' ? (
+									{/* {column.id !== 'selection' ? (
 										<TableSortLabel
 											active={column.isSorted}
-											// react-table has a unsorted state which is not treated here
 											direction={column.isSortedDesc ? 'desc' : 'asc'}
 										/>
-									) : null}
+									) : null} */}
 								</TableCell>
 							))}
 						</TableRow>
