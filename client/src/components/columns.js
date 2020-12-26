@@ -17,6 +17,8 @@ export const COLUMNS = [
 			</div>
 		),
 		width: '12vw',
+		disableSortBy: true,
+		disableGlobalFilter: true,
 	},
 	{
 		Header: ({ column }) => (

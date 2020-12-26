@@ -66,8 +66,13 @@ export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPa
 					Header: '',
 
 					Cell: ({ row }) => (
-						<div style={{ transform: 'translate(+30%, +50%)' }}>
-							<Checkbox icon={<AddIcon style={{ color: green[800] }} />} checkedIcon={<RemoveIcon />} />
+						<div style={{
+              transform: 'translate(+20%, +40%)'
+          }}>
+							<Checkbox
+								icon={<AddIcon style={{ color: '#4caf50', width: '40px', height: '40px' }} />}
+								checkedIcon={<RemoveIcon style={{ width: '40px', height: '40px' }} />}
+							/>
 						</div>
 					),
 				},

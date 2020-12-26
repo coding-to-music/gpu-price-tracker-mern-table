@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Switch, Route, Link as RouterLink } from 'reac
 
 const useStyles = makeStyles((theme) => ({
 	navbar: {
-		background: '#a52828',
+		background: '#a90f0f',
 		position: 'relative',
 	},
 	search: {
@@ -42,10 +42,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	navbarTitle: {
 		fontWeight: 'bold',
+		margin: theme.spacing(0, 0, 0, 8),
 	},
 	navbarButton: {
-		color: 'inherit',
-		padding: theme.spacing(0, 0, 0, 10),
+		color: '#ef9a9a',
+		margin: theme.spacing(0, 0, 0, 10),
 		'&:hover': {
 			color: fade(theme.palette.common.white, 0.75),
 			textDecoration: 'none',
@@ -86,12 +87,8 @@ export const NavBar = () => {
 				</Toolbar>
 			</AppBar>
 			<Switch>
-				<Route path='/'>
-					{/* <Home /> */}
-				</Route>
-				<Route path='/saved'>
-					{/* <Saved /> */}
-				</Route>
+				<Route path='/'>{/* <Home /> */}</Route>
+				<Route path='/saved'>{/* <Saved /> */}</Route>
 			</Switch>
 		</Router>
 	);
