@@ -66,13 +66,13 @@ export const COLUMNS = [
 	},
 	{
 		Header: ({ column }) => (
-			<div style={{ width: '12vw' }}>
+			<div style={{ width: '6vw' }}>
 				<strong>Retailer</strong>
 				<TableSortLabel active={column.isSorted} direction={column.isSortedDesc ? 'desc' : 'asc'} />
 			</div>
 		),
 		accessor: 'retailer',
-		Cell: (row) => <div style={{ width: '12vw' }}>{row.row.original.retailer}</div>,
-		width: '12vw',
+		Cell: (row) => <div style={{ width: '6vw' }}>{row.row.original.retailer}</div>,
+		width: '6vw',
 	},
 ];
