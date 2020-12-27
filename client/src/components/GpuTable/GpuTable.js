@@ -9,11 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TablePaginationActions from './TablePaginationActions';
 import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
 import TableToolbar from './TableToolbar';
 import { makeStyles } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+import PlusCheckbox from './PlusCheckbox';
 
 import { usePagination, useSortBy, useGlobalFilter, useTable, useBlockLayout } from 'react-table';
 
@@ -60,19 +58,7 @@ export const GpuTable = ({ columns, data, updateMyData, skipPageReset, lastUpdat
 
 					Header: () => <div style={{ marginLeft: '-4vw' }} />,
 
-					Cell: ({ row }) => (
-						<div
-							style={{
-								transform: 'translate(+20%, +40%)',
-							}}
-						>
-							<Checkbox
-								icon={<AddIcon style={{ color: '#4caf50', width: '40px', height: '40px' }} />}
-								checkedIcon={<RemoveIcon style={{ width: '40px', height: '40px' }} />}
-								onChange={(e) => handleSaveData(row.original)}
-							/>
-						</div>
-					),
+					Cell: ({ row }) => <PlusCheckbox row={row} />,
 				},
 				...columns,
 			]);
@@ -81,7 +67,6 @@ export const GpuTable = ({ columns, data, updateMyData, skipPageReset, lastUpdat
 
 	const classes = useStyles();
 
-	const handleSaveData = (data) => {};
 	const handleChangePage = (event, newPage) => {
 		gotoPage(newPage);
 	};

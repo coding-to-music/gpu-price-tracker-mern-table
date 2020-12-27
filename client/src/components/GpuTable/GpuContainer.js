@@ -19,6 +19,7 @@ export const GpuContainer = () => {
 		getAllGpus()
 			.then((response) => {
 				const data = response.data.map((gpu) => ({
+          id: gpu._id,
 					img: gpu.img,
 					title: gpu.title,
 					price: gpu.price,
