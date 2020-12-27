@@ -2,11 +2,7 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import { fade, Link, makeStyles } from '@material-ui/core';
-
-import { BrowserRouter as Router, Switch, Route, Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 	navbar: {
@@ -70,26 +66,20 @@ export const NavBar = () => {
 	const preventDefault = (event) => event.preventDefault();
 
 	return (
-		<Router>
-			<AppBar className={styles.navbar}>
-				<Toolbar>
-					<Typography variant='h6' noWrap className={styles.navbarTitle}>
-						GPU Price Tracker
-					</Typography>
-					<Typography variant='h6' noWrap>
-						<Link href='#' onClick={preventDefault} className={styles.navbarButton} component={RouterLink} to='/saved'>
-							Home
-						</Link>
-						<Link href='#' onClick={preventDefault} className={styles.navbarButton}>
-							Saved
-						</Link>
-					</Typography>
-				</Toolbar>
-			</AppBar>
-			<Switch>
-				<Route path='/'>{/* <Home /> */}</Route>
-				<Route path='/saved'>{/* <Saved /> */}</Route>
-			</Switch>
-		</Router>
+		<AppBar className={styles.navbar}>
+			<Toolbar>
+				<Typography variant='h6' noWrap className={styles.navbarTitle}>
+					GPU Price Tracker
+				</Typography>
+				<Typography variant='h6' noWrap>
+					<Link href='#' onClick={preventDefault} className={styles.navbarButton} to='/saved'>
+						Home
+					</Link>
+					<Link href='#' onClick={preventDefault} className={styles.navbarButton}>
+						Saved
+					</Link>
+				</Typography>
+			</Toolbar>
+		</AppBar>
 	);
 };

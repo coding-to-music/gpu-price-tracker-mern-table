@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import MaUTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,17 +9,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TablePaginationActions from './TablePaginationActions';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { TableToolbar } from './TableToolbar';
+import TableToolbar from './TableToolbar';
 import { makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import { green } from '@material-ui/core/colors';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-
-import { usePagination, useSortBy, useGlobalFilter, useTable, useAbsoluteLayout, useBlockLayout } from 'react-table';
+import { usePagination, useSortBy, useGlobalFilter, useTable, useBlockLayout } from 'react-table';
 
 const useStyles = makeStyles((theme) => ({
 	tableContainer: {
@@ -32,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 	plusCell: {},
 }));
 
-export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPageReset, setDataFilter }) => {
+export const GpuTable = ({ columns, data, updateMyData, skipPageReset, lastUpdated }) => {
 	const {
 		getTableProps,
 		headerGroups,
@@ -59,19 +55,21 @@ export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPa
 		useBlockLayout,
 		(hooks) => {
 			hooks.allColumns.push((columns) => [
-				// Let's make a column for selection
 				{
 					id: 'selection',
 
-					Header: '',
+					Header: () => <div style={{ marginLeft: '-4vw' }} />,
 
 					Cell: ({ row }) => (
-						<div style={{
-              transform: 'translate(+20%, +40%)'
-          }}>
+						<div
+							style={{
+								transform: 'translate(+20%, +40%)',
+							}}
+						>
 							<Checkbox
 								icon={<AddIcon style={{ color: '#4caf50', width: '40px', height: '40px' }} />}
 								checkedIcon={<RemoveIcon style={{ width: '40px', height: '40px' }} />}
+								onChange={(e) => handleSaveData(row.original)}
 							/>
 						</div>
 					),
@@ -83,6 +81,7 @@ export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPa
 
 	const classes = useStyles();
 
+	const handleSaveData = (data) => {};
 	const handleChangePage = (event, newPage) => {
 		gotoPage(newPage);
 	};
@@ -107,9 +106,27 @@ export const GpuTable = ({ columns, data, loading, setData, updateMyData, skipPa
 				preGlobalFilteredRows={preGlobalFilteredRows}
 				setGlobalFilter={setGlobalFilter}
 				globalFilter={globalFilter}
+				lastUpdated={lastUpdated}
 			/>
-
 			<MaUTable {...getTableProps()}>
+				<TableHead>
+					<TableRow>
+						<TablePagination
+							rowsPerPageOptions={[5, 10, 25, { label: 'All', value: data.length }]}
+							colSpan={3}
+							count={handleDataCount()}
+							rowsPerPage={pageSize}
+							page={pageIndex}
+							SelectProps={{
+								inputProps: { 'aria-label': 'rows per page' },
+								native: true,
+							}}
+							onChangePage={handleChangePage}
+							onChangeRowsPerPage={handleChangeRowsPerPage}
+							ActionsComponent={TablePaginationActions}
+						/>
+					</TableRow>
+				</TableHead>
 				<TableHead>
 					{headerGroups.map((headerGroup) => (
 						<TableRow {...headerGroup.getHeaderGroupProps()}>

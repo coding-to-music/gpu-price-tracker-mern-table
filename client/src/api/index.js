@@ -5,8 +5,6 @@ const api = axios.create({
 });
 
 export const getAllGpus = () => api.get();
-const apis = {
-  getAllGpus,
-}
 
-export default apis;
+export const getLastUpdatedDate = () => api.get('/lastUpdated');
+

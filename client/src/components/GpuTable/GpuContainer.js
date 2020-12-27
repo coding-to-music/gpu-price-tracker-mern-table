@@ -2,34 +2,21 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { COLUMNS } from './columns';
-import api from '../api';
+import { COLUMNS } from './columns/columns';
+import { getAllGpus, getLastUpdatedDate } from '../../api';
 import { GpuTable } from './GpuTable';
-import { NavBar } from './NavBar';
 
 export const GpuContainer = () => {
-  const [origData, setOrigData] = useState([]);
 	const [data, setData] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [lastUpdated, setLastUpdated] = useState('');
 	const [skipPageReset, setSkipPageReset] = useState(false);
 
 	const updateMyData = () => {
-		// We also turn on the flag to not reset the page
 		setSkipPageReset(true);
-		// const newData = origData.filter((gpu) => {
-		// 	const obj = JSON.parse(gpu);
-		// 	const values = Object.keys(obj).map(function (key) {
-		// 		return obj[key];
-		// 	});
-		// 	return values.find(a =>a.includes('asus')).length > 0
-		// });
-		// setData(newData);
 	};
 
 	useEffect(() => {
-		setLoading(true);
-		api
-			.getAllGpus()
+		getAllGpus()
 			.then((response) => {
 				const data = response.data.map((gpu) => ({
 					img: gpu.img,
@@ -39,33 +26,33 @@ export const GpuContainer = () => {
 					link: gpu.link,
 					retailer: gpu.retailer,
 				}));
-        setData(data);
-        setOrigData(data);
+				setData(data);
 			})
 			.catch((error) => {
 				setData([]);
 				console.log(error);
+			});
+
+		getLastUpdatedDate()
+			.then((response) => {
+				setLastUpdated(response.data);
 			})
-			.finally(() => setLoading(false));
+			.catch((error) => {
+				console.log(error);
+			});
 	}, []);
 
 	const columns = useMemo(() => COLUMNS, []);
 
-	if (data.length === 0 && !loading) {
-		return <div>No GPU data available</div>;
-	}
-
 	return (
 		<div>
 			<CssBaseline />
-      <NavBar />
 			<GpuTable
 				columns={columns}
 				data={data}
-				loading={loading}
-				setData={setData}
 				updateMyData={updateMyData}
 				skipPageReset={skipPageReset}
+				lastUpdated={lastUpdated}
 			/>
 		</div>
 	);

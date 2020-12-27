@@ -7,7 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 const useToolbarStyles = makeStyles((theme) => ({
 	root: {
 		paddingLeft: theme.spacing(2),
-		paddingRight: theme.spacing(1),
+    paddingRight: theme.spacing(1),
 	},
 	highlight:
 		theme.palette.type === 'light'
@@ -22,11 +22,15 @@ const useToolbarStyles = makeStyles((theme) => ({
 	title: {
 		flex: '1 1 100%',
 	},
+	lastUpdated: {
+		marginLeft: '70vw'
+	},
 }));
 
-export const TableToolbar = (props) => {
+const TableToolbar = (props) => {
 	const classes = useToolbarStyles();
-	const { preGlobalFilteredRows, setGlobalFilter, globalFilter } = props;
+	const { preGlobalFilteredRows, setGlobalFilter, globalFilter, lastUpdated } = props;
+
 	return (
 		<Toolbar className={classes.root}>
 			<GlobalFilter
@@ -34,6 +38,11 @@ export const TableToolbar = (props) => {
 				globalFilter={globalFilter}
 				setGlobalFilter={setGlobalFilter}
 			/>
+			<strong className={classes.lastUpdated}>
+        Last Updated: {lastUpdated.substring(0, lastUpdated.length - 5)}
+      </strong>
 		</Toolbar>
 	);
 };
+
+export default TableToolbar;
