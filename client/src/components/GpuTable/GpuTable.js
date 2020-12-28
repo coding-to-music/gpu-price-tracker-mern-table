@@ -97,7 +97,7 @@ export const GpuTable = ({ columns, data, updateMyData, skipPageReset, lastUpdat
 				<TableHead>
 					<TableRow>
 						<TablePagination
-							rowsPerPageOptions={[5, 10, 25, { label: 'All', value: data.length }]}
+							rowsPerPageOptions={[5, 10, 25, 50]}
 							colSpan={3}
 							count={handleDataCount()}
 							rowsPerPage={pageSize}
@@ -149,7 +149,7 @@ export const GpuTable = ({ columns, data, updateMyData, skipPageReset, lastUpdat
 				<TableFooter>
 					<TableRow>
 						<TablePagination
-							rowsPerPageOptions={[5, 10, 25, { label: 'All', value: data.length }]}
+							rowsPerPageOptions={[5, 10, 25, 50]}
 							colSpan={3}
 							count={handleDataCount()}
 							rowsPerPage={pageSize}
