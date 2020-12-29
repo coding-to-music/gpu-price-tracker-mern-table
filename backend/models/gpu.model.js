@@ -6,8 +6,7 @@ const gpuSchema = new Schema(
 	{
 		title: {
 			type: String,
-			unique: true,
-			required: true,
+      required: true,
 		},
     brand: String,
     retailer: String,

@@ -1,9 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const db = require('./models/gpu.model.js');
-const schedule = require('node-schedule');
-
-require('dotenv').config({ path: '../.env' });
+const db = require('../models/gpu.model.js');
 
 const scrapeNeweggGpus = async () => {
 	console.log('Scraping Newegg...');
@@ -64,7 +61,7 @@ const scrapeNeweggGpus = async () => {
 			});
     }
 
-		console.log('Successfully scraped Newegg!');
+		console.log('Scraped Newegg!');
 
 		gpus.forEach((gpu) => {
 			db.findOneAndUpdate({ title: gpu.title }, gpu, { upsert: true, useFindAndModify: false }, (err, doc) => {
@@ -76,4 +73,4 @@ const scrapeNeweggGpus = async () => {
 	}
 };
 
-if (process.env.NODE_ENV !== 'production') schedule.scheduleJob('0 */12 * * *',scrapeNeweggGpus);
+module.exports = scrapeNeweggGpus;
