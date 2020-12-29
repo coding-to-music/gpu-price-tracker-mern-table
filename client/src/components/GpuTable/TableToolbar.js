@@ -23,7 +23,8 @@ const useToolbarStyles = makeStyles((theme) => ({
 		flex: '1 1 100%',
 	},
 	lastUpdated: {
-		marginLeft: '70vw'
+    position:'absolute',
+		marginLeft: '85vw'
 	},
 }));
 
@@ -39,7 +40,7 @@ const TableToolbar = (props) => {
 				setGlobalFilter={setGlobalFilter}
 			/>
 			<strong className={classes.lastUpdated}>
-        Last Updated: {lastUpdated.substring(0, lastUpdated.length - 5)}
+        Last Updated: {lastUpdated.slice(0,10)+' '+lastUpdated.slice(11,lastUpdated.length-5)}
       </strong>
 		</Toolbar>
 	);

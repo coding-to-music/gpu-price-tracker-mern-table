@@ -2,7 +2,9 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { fade, Link, makeStyles } from '@material-ui/core';
+import { fade, makeStyles } from '@material-ui/core';
+
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 	navbar: {
@@ -60,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const NavBar = () => {
+export const NavBar = ({setSaved}) => {
 	const styles = useStyles();
 
 	const preventDefault = (event) => event.preventDefault();
@@ -72,10 +74,10 @@ export const NavBar = () => {
 					GPU Price Tracker
 				</Typography>
 				<Typography variant='h6' noWrap>
-					<Link href='#' onClick={preventDefault} className={styles.navbarButton} to='/saved'>
+					<Link  to='/' href='#' className={styles.navbarButton}>
 						Home
 					</Link>
-					<Link href='#' onClick={preventDefault} className={styles.navbarButton}>
+					<Link to='/saved' href='#' className={styles.navbarButton}>
 						Saved
 					</Link>
 				</Typography>

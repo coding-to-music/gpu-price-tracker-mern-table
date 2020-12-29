@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
 const PlusCheckbox = (props) => {
 	const { row } = props;
-	const [checked, setChecked] = useState(localStorage.getItem(row.original.id) !== null);
+	const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setChecked(!!localStorage.getItem(row.original.id) )
+  },[row])
 
 	const handleSaveData = (data) => {
 		localStorage.getItem(data.id) == null
