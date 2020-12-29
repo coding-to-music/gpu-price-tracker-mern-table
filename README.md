@@ -8,6 +8,7 @@ UI and Node.js, Express.js, and MongoDB for the server and database.
 Note that the deployed website may not have scheduled web scraping because job scheduling isn't currently set up on Heroku.
 If you run this app on your local machine, GPU data will be scraped every 30 minutes.
 
+All prices listed are in CAD.
 
 
 ## Site
@@ -91,7 +92,7 @@ npm run server
 
 ## Todo
 - Add Heroku Scheduler to deployed website on Heroku
-- Add Canada Computers to list of retailers
+- Add Canada Computers and Amazon to scrapers 
 - Fix Best Buy image scraping on lazy load
 
 
