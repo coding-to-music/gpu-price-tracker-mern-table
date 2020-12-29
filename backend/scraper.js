@@ -1,8 +1,11 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const db = require('./models/gpu.model.js');
+const schedule = require('node-schedule');
 
-const scrapeAllGpus = async () => {
+require('dotenv').config({ path: '../.env' });
+
+const scrapeNeweggGpus = async () => {
 	console.log('Scraping Newegg...');
 	try {
 		const response = await axios.get('https://www.newegg.ca/p/pl?PageSize=96&N=100007708%208000&page=1', {
@@ -73,4 +76,4 @@ const scrapeAllGpus = async () => {
 	}
 };
 
-scrapeAllGpus();
+if (process.env.NODE_ENV !== 'production') schedule.scheduleJob('0 */12 * * *',scrapeNeweggGpus);
