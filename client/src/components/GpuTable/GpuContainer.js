@@ -23,7 +23,8 @@ export const GpuContainer = (props) => {
 
 		keys.forEach((key) => local.push(data.find((item) => item.id === key)));
 
-    setLocalData(local);
+    if (local[0] !== undefined) setLocalData(local);
+    
     
     props.saved ? setTableData(localData) : setTableData(data);
 	};
