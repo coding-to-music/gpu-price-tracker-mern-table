@@ -2,7 +2,7 @@
 
 GPUPriceTracker is a React web application that periodically scrapes online retailers for GPU prices.
 The website displays information about each scraped GPU and allows you to save GPUs you want to keep 
-track of in a separate page with the plus icon. This web application uses React and Material-UI for its 
+track of in a separate page with the plus icon. This web application uses React, React Table, and Material-UI for its 
 UI and Node.js, Express.js, and MongoDB for the server and database.
 
 Note that the deployed website may not have scheduled web scraping because job scheduling isn't currently set up on Heroku.
