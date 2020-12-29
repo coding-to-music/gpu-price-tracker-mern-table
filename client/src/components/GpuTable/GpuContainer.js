@@ -23,46 +23,47 @@ export const GpuContainer = (props) => {
 
 		keys.forEach((key) => local.push(data.find((item) => item.id === key)));
 
-		setLocalData(local);
+    setLocalData(local);
+    
+    props.saved ? setTableData(localData) : setTableData(data);
 	};
 
 	useEffect(() => {
-		if (data.length === 0)
-			getAllGpus()
-				.then((response) => {
-					var data = response.data.map((gpu) => ({
-						id: gpu._id,
-						img: gpu.img,
-						title: gpu.title,
-						price: gpu.price,
-						brand: gpu.brand,
-						link: gpu.link,
-						retailer: gpu.retailer,
-					}));
-					setData(data);
+		getAllGpus()
+			.then((response) => {
+				var data = response.data.map((gpu) => ({
+					id: gpu._id,
+					img: gpu.img,
+					title: gpu.title,
+					price: gpu.price,
+					brand: gpu.brand,
+					link: gpu.link,
+					retailer: gpu.retailer,
+				}));
+				setData(data);
+        handleSaved(data);
+			})
+			.catch((error) => {
+				setData([]);
+				console.log(error);
+			});
 
-					handleSaved(data);
-				})
-				.catch((error) => {
-					setData([]);
-					console.log(error);
-				});
+		getLastUpdatedDate()
+			.then((response) => {
+				setLastUpdated(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+      });
+	}, []);
 
-		if (lastUpdated === '')
-			getLastUpdatedDate()
-				.then((response) => {
-					setLastUpdated(response.data);
-				})
-				.catch((error) => {
-					console.log(error);
-        });
-        
-    if (data.length !== 0 && Object.keys(localStorage).length !== localData.length) {
-      handleSaved(data)
+	useEffect(() => {
+		if (data.length !== 0 && Object.keys(localStorage).length !== localData.length) {
+			handleSaved(data);
     }
-
-		props.saved ? setTableData(localData) : setTableData(data);
-	}, [data, localData, props.saved]);
+    
+    props.saved ? setTableData(localData) : setTableData(data);
+	}, [localStorage, props.saved, localData]);
 
 	const columns = useMemo(() => COLUMNS, []);
 
