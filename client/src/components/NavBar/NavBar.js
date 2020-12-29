@@ -47,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(0, 0, 0, 10),
 		'&:hover': {
 			color: fade(theme.palette.common.white, 0.75),
-			textDecoration: 'none',
 		},
+		textDecoration: 'none',
 	},
 	inputInput: {
 		padding: theme.spacing(1, 1, 1, 0),
@@ -62,10 +62,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const NavBar = ({setSaved}) => {
+export const NavBar = ({ setSaved }) => {
 	const styles = useStyles();
-
-	const preventDefault = (event) => event.preventDefault();
 
 	return (
 		<AppBar className={styles.navbar}>
@@ -74,7 +72,7 @@ export const NavBar = ({setSaved}) => {
 					GPU Price Tracker
 				</Typography>
 				<Typography variant='h6' noWrap>
-					<Link  to='/' href='#' className={styles.navbarButton}>
+					<Link to='/' href='#' className={styles.navbarButton}>
 						Home
 					</Link>
 					<Link to='/saved' href='#' className={styles.navbarButton}>

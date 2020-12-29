@@ -21,7 +21,7 @@ export const GpuContainer = (props) => {
 		const keys = Object.keys(localStorage);
 		const local = [];
 
-		keys.forEach((key) => local.push(data.find((item) => item.id == key)));
+		keys.forEach((key) => local.push(data.find((item) => item.id === key)));
 
 		setLocalData(local);
 	};
