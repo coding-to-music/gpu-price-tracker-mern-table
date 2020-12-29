@@ -99,5 +99,5 @@ npm run server
 - Add Heroku Scheduler to deployed website on Heroku
 - Add Canada Computers and Amazon to scrapers 
 - Fix Best Buy image scraping on lazy load
-
+- Add price history and model numbers to GPUs
 
