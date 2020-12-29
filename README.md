@@ -11,6 +11,13 @@ If you run this app on your local machine, GPU data will be scraped every 30 min
 All prices listed are in CAD.
 
 
+
+## Live Demo
+
+Here is the deployed app on Heroku: https://gpu-price-tracker.herokuapp.com
+
+
+
 ## Site
 
 ### Home
@@ -19,9 +26,7 @@ All prices listed are in CAD.
 ### Saved
 ![Screenshot 2](https://i.imgur.com/Gy9k1MH.png)
 
-## Live Demo
 
-Here is the deployed app on Heroku: https://gpu-price-tracker.herokuapp.com
 
 
 
