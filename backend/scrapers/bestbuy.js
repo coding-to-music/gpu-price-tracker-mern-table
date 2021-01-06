@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 
-const db = require('../models/gpu.model.js');
+const db = require('../models/gpu.js');
 
 const url =
 	'https://www.bestbuy.ca/en-ca/category/graphics-cards/20397?path=category%253AComputers%2B%2526%2BTablets%253Bcategory%253APC%2BComponents%253Bcategory%253AGraphics%2BCards%253Bsoldandshippedby0enrchstring%253ABest%2BBuy';

@@ -1,4 +1,4 @@
-const db = require('../models/gpu.model');
+const db = require('../models/gpu');
 
 const findAll = async (req, res) => {
 	db.find({})

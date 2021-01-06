@@ -1,6 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const db = require('../models/gpu.model.js');
+const db = require('../models/gpu.js');
 
 const scrapeMeGpus = async () => {
 	console.log('Scraping Memory Express...');
