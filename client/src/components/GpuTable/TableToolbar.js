@@ -24,7 +24,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 	},
 	lastUpdated: {
     position:'absolute',
-		marginLeft: '85vw'
+    right: 0
 	},
 }));
 
