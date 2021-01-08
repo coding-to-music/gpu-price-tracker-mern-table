@@ -18,11 +18,14 @@ const run = async () => {
 	const cssSelector = 'button[class="button_2Xgu4 secondary_3qojI  button_1Yg9v loadMore_3AoXT regular_cDhX6"] > span';
 	let loadMoreVisible = await isElementVisible(page, cssSelector);
 
-	// click show more until no longer visible
-	while (loadMoreVisible) {
+  // click show more until no longer visible
+  var loadCount = 0;
+	while (loadMoreVisible && loadCount <= 5) {
 		await page.click(cssSelector).catch(() => {});
 		console.log('Found span');
-		loadMoreVisible = await isElementVisible(page, cssSelector);
+    loadMoreVisible = await isElementVisible(page, cssSelector);
+    
+    loadCount++;
 	}
 
 	const bodyHandle = await page.$('body');

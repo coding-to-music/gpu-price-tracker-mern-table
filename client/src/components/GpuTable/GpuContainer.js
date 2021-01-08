@@ -6,7 +6,7 @@ import { COLUMNS } from './columns/columns';
 import { getAllGpus, getLastUpdatedDate } from '../../api';
 import { GpuTable } from './GpuTable';
 
-export const GpuContainer = (props) => {
+const GpuContainer = (props) => {
 	const [data, setData] = useState([]);
 	const [localData, setLocalData] = useState([]);
 	const [tableData, setTableData] = useState([]);
@@ -23,10 +23,9 @@ export const GpuContainer = (props) => {
 
 		keys.forEach((key) => local.push(data.find((item) => item.id === key)));
 
-    if (local[0] !== undefined) setLocalData(local);
-    
-    
-    props.saved ? setTableData(localData) : setTableData(data);
+		if (local[0] !== undefined) setLocalData(local);
+
+		props.saved ? setTableData(localData) : setTableData(data);
 	};
 
 	useEffect(() => {
@@ -42,7 +41,7 @@ export const GpuContainer = (props) => {
 					retailer: gpu.retailer,
 				}));
 				setData(data);
-        handleSaved(data);
+				handleSaved(data);
 			})
 			.catch((error) => {
 				setData([]);
@@ -55,15 +54,15 @@ export const GpuContainer = (props) => {
 			})
 			.catch((error) => {
 				console.log(error);
-      });
+			});
 	}, []);
 
 	useEffect(() => {
 		if (data.length !== 0 && Object.keys(localStorage).length !== localData.length) {
 			handleSaved(data);
-    }
-    
-    props.saved ? setTableData(localData) : setTableData(data);
+		}
+
+		props.saved ? setTableData(localData) : setTableData(data);
 	}, [localStorage, props.saved, localData]);
 
 	const columns = useMemo(() => COLUMNS, []);
@@ -81,3 +80,5 @@ export const GpuContainer = (props) => {
 		</div>
 	);
 };
+
+export default GpuContainer;

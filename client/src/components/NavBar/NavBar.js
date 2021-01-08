@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const NavBar = ({ setSaved }) => {
+const NavBar = ({ setSaved }) => {
 	const styles = useStyles();
 
 	return (
@@ -83,3 +83,5 @@ export const NavBar = ({ setSaved }) => {
 		</AppBar>
 	);
 };
+
+export default NavBar;
