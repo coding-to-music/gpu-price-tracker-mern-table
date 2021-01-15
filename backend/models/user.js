@@ -2,23 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  }
+	email: {
+		type: String,
+		lowercase: true,
+		required: true,
+    index: true,
+    unique: true,
+	},
+	password: {
+		type: String,
+		required: true,
+	},
 });
+
+userSchema.plugin(uniqueValidator, { message: 'is already taken' });
 
 const User = mongoose.model('user', gpuSchema);
 
