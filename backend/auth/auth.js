@@ -36,7 +36,8 @@ passport.use(
 
 				const valid = await user.isValidPassword(password);
 
-				if (!user || !valid) return done(null, false, { message: 'Incorrect Email/Password' });
+				if (!user || !valid)
+					return done(null, false, { message: 'Incorrect Email/Password' });
 
 				return done(null, user, { message: 'Logged in Successfully' });
 			} catch (error) {
