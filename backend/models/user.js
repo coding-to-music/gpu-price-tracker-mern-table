@@ -17,6 +17,6 @@ const userSchema = new Schema({
 
 const userDB = mongoose.connection.useDb('users');
 
-const User = userDB.model('user', gpuSchema);
+const User = userDB.model('user', userSchema);
 
 module.exports = User;

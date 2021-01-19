@@ -3,21 +3,22 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
+const bcrypt = require('bcrypt');
 
 passport.use(
-  new JWTstrategy(
-    {
-      secretOrKey: 'test',
-      jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
-    },
-    async (token, done) => {
-      try {
-        return done(null, token.user);
-      } catch (error) {
-        done(error);
-      }
-    }
-  )
+	new JWTstrategy(
+		{
+			secretOrKey: 'test',
+			jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token'),
+		},
+		async (token, done) => {
+			try {
+				return done(null, token.user);
+			} catch (error) {
+				done(error);
+			}
+		}
+	)
 );
 
 passport.use(
@@ -31,7 +32,7 @@ passport.use(
 			try {
 				// hash password with bcrypt
 				const hash = await bcrypt.hash(password, 10);
-				const user = await User.create({ email, hash });
+				const user = await User.create({ email: email, password: hash });
 
 				return done(null, user);
 			} catch (error) {

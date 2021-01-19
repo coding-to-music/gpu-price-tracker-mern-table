@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const routes = require('./routes/index');
 const path = require('path');
 
+require('./auth/auth');
+
 require('dotenv').config({ path: '../.env' });
 
 const PORT = process.env.PORT || 5000;
@@ -18,6 +20,7 @@ const URI = process.env.ATLAS_URI;
 mongoose.connect(URI, {
 	useNewUrlParser: true,
 	useCreateIndex: true,
+	useFindAndModify: false,
 	useUnifiedTopology: true,
 });
 
