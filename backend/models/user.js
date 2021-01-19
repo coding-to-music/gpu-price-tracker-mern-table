@@ -6,8 +6,8 @@ const userSchema = new Schema({
 		type: String,
 		lowercase: true,
 		required: true,
-    index: true,
-    unique: true,
+		index: true,
+		unique: true,
 	},
 	password: {
 		type: String,
@@ -15,8 +15,8 @@ const userSchema = new Schema({
 	},
 });
 
-userSchema.plugin(uniqueValidator, { message: 'is already taken' });
+const userDB = mongoose.connection.useDb('users');
 
-const User = mongoose.model('user', gpuSchema);
+const User = userDB.model('user', gpuSchema);
 
 module.exports = User;

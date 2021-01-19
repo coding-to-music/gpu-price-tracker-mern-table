@@ -17,6 +17,8 @@ const gpuSchema = new Schema(
 	{ timestamps: true }
 );
 
-const Gpu = mongoose.model('Gpu', gpuSchema);
+const gpuDB = mongoose.connection.useDb('products');
+
+const Gpu = gpuDB.model('Gpu', gpuSchema);
 
 module.exports = Gpu;
