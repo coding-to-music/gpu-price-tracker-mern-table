@@ -4,6 +4,6 @@ const gpusRoutes = require('./gpus');
 const authRoutes = require('./auth');
 
 router.use('/gpus', gpusRoutes);
-router.use('/', authRoutes);
+router.use('/auth', authRoutes);
 
 module.exports = router;
