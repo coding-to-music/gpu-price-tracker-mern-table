@@ -47,10 +47,30 @@ const Login = () => {
 					Sign in
 				</Typography>
 				<form className={classes.form} noValidate>
-					<OutlinedInput className={classes.input} margin='normal' required fullWidth placeholder='Email Address' />
-					<OutlinedInput className={classes.input} margin='normal' required fullWidth placeholder='Password' />
-					<FormControlLabel control={<Checkbox value='remember' />} label='Remember me' />
-					<Button type='submit' fullWidth variant='contained' className={classes.submit}>
+					<OutlinedInput
+						className={classes.input}
+						margin='normal'
+						required
+						fullWidth
+						placeholder='Email Address'
+					/>
+					<OutlinedInput
+						className={classes.input}
+						margin='normal'
+						required
+						fullWidth
+						placeholder='Password'
+					/>
+					<FormControlLabel
+						control={<Checkbox value='remember' />}
+						label='Remember me'
+					/>
+					<Button
+						type='submit'
+						fullWidth
+						variant='contained'
+						className={classes.submit}
+					>
 						Sign In
 					</Button>
 					<Grid container>

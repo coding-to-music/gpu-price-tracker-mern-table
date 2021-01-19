@@ -13,7 +13,13 @@ import TableToolbar from './TableToolbar';
 import { makeStyles } from '@material-ui/core';
 import PlusCheckbox from './PlusCheckbox';
 
-import { usePagination, useSortBy, useGlobalFilter, useTable, useBlockLayout } from 'react-table';
+import {
+	usePagination,
+	useSortBy,
+	useGlobalFilter,
+	useTable,
+	useBlockLayout,
+} from 'react-table';
 
 const useStyles = makeStyles((theme) => ({
 	tableContainer: {
@@ -26,7 +32,13 @@ const useStyles = makeStyles((theme) => ({
 	plusCell: {},
 }));
 
-export const GpuTable = ({ columns, data, updateMyData, skipPageReset, lastUpdated }) => {
+export const GpuTable = ({
+	columns,
+	data,
+	updateMyData,
+	skipPageReset,
+	lastUpdated,
+}) => {
 	const {
 		getTableProps,
 		headerGroups,
@@ -78,7 +90,10 @@ export const GpuTable = ({ columns, data, updateMyData, skipPageReset, lastUpdat
 	const handleDataCount = () =>
 		data.filter((a) =>
 			Object.values(a).some((e) => {
-				if (Object.prototype.toString.call(e) === '[object String]' && globalFilter !== undefined) {
+				if (
+					Object.prototype.toString.call(e) === '[object String]' &&
+					globalFilter !== undefined
+				) {
 					return e.toLowerCase().includes(globalFilter.toLowerCase());
 				}
 				return globalFilter === undefined;
@@ -139,7 +154,11 @@ export const GpuTable = ({ columns, data, updateMyData, skipPageReset, lastUpdat
 						return (
 							<TableRow {...row.getRowProps()}>
 								{row.cells.map((cell) => {
-									return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>;
+									return (
+										<TableCell {...cell.getCellProps()}>
+											{cell.render('Cell')}
+										</TableCell>
+									);
 								})}
 							</TableRow>
 						);

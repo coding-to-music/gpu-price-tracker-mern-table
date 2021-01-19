@@ -5,13 +5,16 @@ const db = require('../models/gpu.js');
 const scrapeNeweggGpus = async () => {
 	console.log('Scraping Newegg...');
 	try {
-		const response = await axios.get('https://www.newegg.ca/p/pl?PageSize=96&N=100007708%208000&page=1', {
-			'Cache-Control': 'no-cache',
-			headers: {
-				Mozilla:
-					'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.3 Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/43.4.0',
-			},
-		});
+		const response = await axios.get(
+			'https://www.newegg.ca/p/pl?PageSize=96&N=100007708%208000&page=1',
+			{
+				'Cache-Control': 'no-cache',
+				headers: {
+					Mozilla:
+						'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.3 Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/43.4.0',
+				},
+			}
+		);
 
 		const gpus = [];
 
@@ -25,7 +28,9 @@ const scrapeNeweggGpus = async () => {
 
 		// load every page on newegg
 		for (let i = 1; i <= numOfPages; i++) {
-			const page = await axios.get(`https://www.newegg.ca/p/pl?PageSize=96&N=100007708%208000&page=${i}`);
+			const page = await axios.get(
+				`https://www.newegg.ca/p/pl?PageSize=96&N=100007708%208000&page=${i}`
+			);
 
 			$ = cheerio.load(page.data, {
 				normalizeWhitespace: true,
@@ -44,7 +49,8 @@ const scrapeNeweggGpus = async () => {
 
 				// find dollar and cent value of gpu
 				const priceData = $(element).find('.price-current');
-				var price = +priceData.find('strong').text() + +priceData.find('sup').text();
+				var price =
+					+priceData.find('strong').text() + +priceData.find('sup').text();
 
 				// price NaN check
 				gpu.price = isNaN(price) || !price ? 'Sold Out' : price;
@@ -59,14 +65,19 @@ const scrapeNeweggGpus = async () => {
 
 				gpus.push(gpu);
 			});
-    }
+		}
 
 		console.log('Scraped Newegg!');
 
 		gpus.forEach((gpu) => {
-			db.findOneAndUpdate({ title: gpu.title }, gpu, { upsert: true, useFindAndModify: false }, (err, doc) => {
-				if (err) console.log(err);
-			});
+			db.findOneAndUpdate(
+				{ title: gpu.title },
+				gpu,
+				{ upsert: true, useFindAndModify: false },
+				(err, doc) => {
+					if (err) console.log(err);
+				}
+			);
 		});
 	} catch (err) {
 		console.log(err);

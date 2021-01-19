@@ -45,36 +45,58 @@ const scrapeMeGpus = async () => {
 				var gpu = {};
 
 				// find link to Newegg page
-				gpu.link = 'https://www.memoryexpress.com/' + $(element).find('.c-shca-icon-item__body-image > a').attr('href');
+				gpu.link =
+					'https://www.memoryexpress.com/' +
+					$(element).find('.c-shca-icon-item__body-image > a').attr('href');
 
 				// find name of gpu
-				gpu.title = $(element).find('.c-shca-icon-item__body-name > a').text().trim();
+				gpu.title = $(element)
+					.find('.c-shca-icon-item__body-name > a')
+					.text()
+					.trim();
 
 				// find dollar and cent value of gpu
 				var price = parseFloat(
-					$(element).find('.c-shca-icon-item__summary-list > span').text().trim().substring(1).replace(',', '')
+					$(element)
+						.find('.c-shca-icon-item__summary-list > span')
+						.text()
+						.trim()
+						.substring(1)
+						.replace(',', '')
 				);
 
 				// price NaN check
 				gpu.price = isNaN(price) || !price ? 'Sold Out' : price;
 
 				// find brand name of gpu
-				gpu.brand = $(element).find('.c-shca-icon-item__body-name-brand > img').attr('alt');
+				gpu.brand = $(element)
+					.find('.c-shca-icon-item__body-name-brand > img')
+					.attr('alt');
 
 				gpu.retailer = 'Memory Express';
 
 				// find image of gpu
-				gpu.img = $(element).find('.c-shca-icon-item__body-image > a > img').attr('src');
-				if (!gpu.img) gpu.img = $(element).find('.c-shca-icon-item__body-image > a > img').attr('data-lazy-src');
+				gpu.img = $(element)
+					.find('.c-shca-icon-item__body-image > a > img')
+					.attr('src');
+				if (!gpu.img)
+					gpu.img = $(element)
+						.find('.c-shca-icon-item__body-image > a > img')
+						.attr('data-lazy-src');
 
 				gpus.push(gpu);
 			});
 		}
 
 		gpus.forEach((gpu) => {
-			db.findOneAndUpdate({ title: gpu.title }, gpu, { upsert: true, useFindAndModify: false }, (err, doc) => {
-				if (err) console.log(err);
-			});
+			db.findOneAndUpdate(
+				{ title: gpu.title },
+				gpu,
+				{ upsert: true, useFindAndModify: false },
+				(err, doc) => {
+					if (err) console.log(err);
+				}
+			);
 		});
 
 		console.log('Scraped Memory Express!');

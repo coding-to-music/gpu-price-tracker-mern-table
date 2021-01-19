@@ -39,7 +39,9 @@ export const COLUMNS = [
 		),
 		accessor: 'price',
 		Cell: (row) => {
-			const value = isNaN(row.value) ? row.value : `$${Math.round(row.value * 100) / 100}`;
+			const value = isNaN(row.value)
+				? row.value
+				: `$${Math.round(row.value * 100) / 100}`;
 			return <ColumnCell width='12vw'>{value}</ColumnCell>;
 		},
 		disableGlobalFilter: true,
@@ -53,7 +55,9 @@ export const COLUMNS = [
 			</ColumnHeader>
 		),
 		accessor: 'brand',
-		Cell: (row) => <ColumnCell width='12vw'>{row.row.original.brand}</ColumnCell>,
+		Cell: (row) => (
+			<ColumnCell width='12vw'>{row.row.original.brand}</ColumnCell>
+		),
 		width: '12vw',
 	},
 	{
@@ -63,7 +67,9 @@ export const COLUMNS = [
 			</ColumnHeader>
 		),
 		accessor: 'retailer',
-		Cell: (row) => <ColumnCell width='6vw'>{row.row.original.retailer}</ColumnCell>,
+		Cell: (row) => (
+			<ColumnCell width='6vw'>{row.row.original.retailer}</ColumnCell>
+		),
 		width: '6vw',
 	},
 ];

@@ -12,10 +12,10 @@ const scrapeAll = () => {
 };
 
 if (process.env.NODE_ENV === 'production') {
-  scrapeAll();
+	scrapeAll();
 } else {
-  // scrapeAll();
-  schedule.scheduleJob('*/5 * * * *', scrapeAll);
+	// scrapeAll();
+	schedule.scheduleJob('*/5 * * * *', scrapeAll);
 }
 
 module.exports = scrapeAll;

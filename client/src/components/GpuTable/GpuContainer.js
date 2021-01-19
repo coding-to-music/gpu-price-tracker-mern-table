@@ -58,7 +58,10 @@ const GpuContainer = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (data.length !== 0 && Object.keys(localStorage).length !== localData.length) {
+		if (
+			data.length !== 0 &&
+			Object.keys(localStorage).length !== localData.length
+		) {
 			handleSaved(data);
 		}
 
