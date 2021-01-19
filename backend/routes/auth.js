@@ -17,9 +17,10 @@ router.post('/login', async (req, res, next) => {
 	passport.authenticate('login', async (err, user, info) => {
 		try {
 			if (err || !user) {
-				const error = new Error('An error occurred.');
-
-				return next(error);
+				return res.status(400).json({
+					message: 'An error occurred.',
+					user: user,
+				});
 			}
 
 			req.login(user, { session: false }, async (error) => {
@@ -35,5 +36,14 @@ router.post('/login', async (req, res, next) => {
 		}
 	})(req, res, next);
 });
+
+router.get(
+	'/authenticated',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		console.log(req.user);
+		res.json({ authenticated: true, user: req.user });
+	}
+);
 
 module.exports = router;

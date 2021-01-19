@@ -51,10 +51,12 @@ passport.use(
 		},
 		async (email, password, done) => {
 			try {
-				const user = await UserModel.findOne({ email });
+        const user = await User.findOne({ email });
+        console.log(user);
 
-				const valid = await user.isValidPassword(password);
+        const valid = await bcrypt.compare(password, user.password);
 
+        
 				if (!user || !valid)
 					return done(null, false, { message: 'Incorrect Email/Password' });
 
