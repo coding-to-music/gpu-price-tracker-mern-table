@@ -5,14 +5,14 @@ const gpuSchema = new Schema(
 	{
 		title: {
 			type: String,
-      required: true,
+			required: true,
 		},
-    brand: String,
-    retailer: String,
+		brand: String,
+		retailer: String,
 		price: Schema.Types.Mixed,
 		link: String,
-    img: String,
-    Model: String,
+		img: String,
+		Model: String,
 	},
 	{ timestamps: true }
 );
