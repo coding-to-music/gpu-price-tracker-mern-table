@@ -1,6 +1,6 @@
 import './App.css';
 import GpuContainer from './components/GpuTable';
-import NavBar from './components/NavBar';
+import Navbar from './components/Navbar';
 import Login from './components/Login';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
