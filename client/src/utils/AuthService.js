@@ -1,4 +1,4 @@
-export default {
+const AuthService = {
 	login: async (user) => {
 		const res = await fetch('/auth/login', {
 			method: 'post',
@@ -8,9 +8,9 @@ export default {
 			},
 		});
 
-		const json = await res.json();
-  },
-  register: async (user) => {
+		return await res.json();
+	},
+	register: async (user) => {
 		const res = await fetch('/auth/register', {
 			method: 'post',
 			body: JSON.stringify(user),
@@ -19,9 +19,9 @@ export default {
 			},
 		});
 
-		const json = await res.json();
-  },
-  isAuthenticated: async (user) => {
+		return await res.json();
+	},
+	isAuthenticated: async (user) => {
 		const res = await fetch('/auth/login', {
 			method: 'post',
 			body: JSON.stringify(user),
@@ -30,6 +30,8 @@ export default {
 			},
 		});
 
-		const json = await res.json();
-	}
+		return await res.json();
+	},
 };
+
+export default AuthService;
