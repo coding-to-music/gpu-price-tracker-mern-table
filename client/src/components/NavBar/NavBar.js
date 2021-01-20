@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { fade, makeStyles } from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../utils/authContext';
+import { AuthContext } from '../../utils/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
 	navbar: {
