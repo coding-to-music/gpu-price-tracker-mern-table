@@ -24,7 +24,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 	},
 	lastUpdated: {
 		position: 'absolute',
-		right: 0,
+		right: 10,
 	},
 }));
 

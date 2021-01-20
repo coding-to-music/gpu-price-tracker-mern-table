@@ -8,22 +8,28 @@ import React, { useContext } from 'react';
 import { AuthContext } from './utils/AuthContext';
 
 function App() {
-  const {user, setUser, authenticated,setAuthenticated} = useContext(AuthContext);
+	const { user, setUser, authenticated, setAuthenticated } = useContext(
+		AuthContext
+	);
 
-  console.log(user);
-  console.log(authenticated);
+	console.log(user);
+	console.log(authenticated);
 
 	return (
-		// <Router>
-		// 	<div>
-		// 		<NavBar />
-		// 		<Switch>
-		// 			<Route exact path='/' render={() => <GpuContainer saved={false} />} />
-		// 			<Route exact path='/saved' render={() => <GpuContainer saved={true} />} />
-		// 		</Switch>
-		// 	</div>
-		// </Router>
-		<Login />
+		<Router>
+			<div>
+				<Navbar />
+				<Switch>
+					<Route exact path='/' render={() => <GpuContainer saved={false} />} />
+					<Route
+						exact
+						path='/saved'
+						render={() => <GpuContainer saved={true} />}
+					/>
+					<Route exact path='/login' component={Login} />
+				</Switch>
+			</div>
+		</Router>
 	);
 }
 

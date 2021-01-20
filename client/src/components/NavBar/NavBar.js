@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { fade, makeStyles } from '@material-ui/core';
 
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../utils/authContext';
 
 const useStyles = makeStyles((theme) => ({
 	navbar: {
@@ -65,6 +66,10 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = ({ setSaved }) => {
 	const styles = useStyles();
 
+	const { user, setUser, authenticated, setAuthenticated } = useContext(
+		AuthContext
+	);
+
 	return (
 		<AppBar className={styles.navbar}>
 			<Toolbar>
@@ -76,6 +81,12 @@ const NavBar = ({ setSaved }) => {
 						Home
 					</Link>
 					<Link to='/saved' href='#' className={styles.navbarButton}>
+						Saved
+					</Link>
+					<Link to='/login' href='#' className={styles.navbarButton}>
+						Saved
+					</Link>
+					<Link to='/register' href='#' className={styles.navbarButton}>
 						Saved
 					</Link>
 				</Typography>
