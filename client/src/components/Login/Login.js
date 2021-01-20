@@ -49,14 +49,14 @@ const Login = () => {
 				<form className={classes.form} noValidate>
 					<OutlinedInput
 						className={classes.input}
-						margin='normal'
+						margin='none'
 						required
 						fullWidth
 						placeholder='Email Address'
 					/>
 					<OutlinedInput
 						className={classes.input}
-						margin='normal'
+						margin='none'
 						required
 						fullWidth
 						placeholder='Password'
