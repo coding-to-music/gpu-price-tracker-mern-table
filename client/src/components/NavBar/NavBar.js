@@ -84,10 +84,10 @@ const NavBar = ({ setSaved }) => {
 						Saved
 					</Link>
 					<Link to='/login' href='#' className={styles.navbarButton}>
-						Saved
+						Login
 					</Link>
 					<Link to='/register' href='#' className={styles.navbarButton}>
-						Saved
+						Register
 					</Link>
 				</Typography>
 			</Toolbar>
