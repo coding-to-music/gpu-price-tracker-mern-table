@@ -58,11 +58,12 @@ const Login = () => {
 						className={classes.input}
 						margin='none'
 						required
-						fullWidth
+            fullWidth
+            type="password"
 						placeholder='Password'
 					/>
 					<FormControlLabel
-						control={<Checkbox value='remember' />}
+						control={<Checkbox value='remember' color='#a90f0f' />}
 						label='Remember me'
 					/>
 					<Button

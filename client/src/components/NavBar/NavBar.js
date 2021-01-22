@@ -3,6 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { fade, makeStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../utils/AuthContext';
@@ -83,12 +84,20 @@ const NavBar = ({ setSaved }) => {
 					<Link to='/saved' href='#' className={styles.navbarButton}>
 						Saved
 					</Link>
-					<Link to='/login' href='#' className={styles.navbarButton}>
-						Login
-					</Link>
-					<Link to='/register' href='#' className={styles.navbarButton}>
-						Register
-					</Link>
+					{!authenticated ? (
+						<>
+							<Link to='/login' href='#' className={styles.navbarButton}>
+								Login
+							</Link>
+							<Link to='/register' href='#' className={styles.navbarButton}>
+								Register
+							</Link>
+						</>
+					) : (
+						<Link to='/logout' href='#' className={styles.navbarButton}>
+							Logout
+						</Link>
+					)}
 				</Typography>
 			</Toolbar>
 		</AppBar>
