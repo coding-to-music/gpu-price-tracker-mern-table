@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -9,6 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+
+import { AuthContext } from '../../utils/AuthContext';
+import AuthService from '../../utils/AuthService';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -33,11 +36,40 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Login = () => {
+const Login = (props) => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [message, setMessage] = useState('');
+
+	const { user, setUser, authenticated, setAuthenticated } = useContext(
+		AuthContext
+	);
 
 	const classes = useStyles();
+
+	const onSubmit = (e) => {
+		e.preventDefault();
+		const email = username.trim().toLowerCase();
+		AuthService.login({ email, password }).then((data) => {
+			if (data.token) {
+				setUser(email);
+				setAuthenticated(true);
+				props.history.push('/');
+			} else {
+        console.log(data.message);
+			}
+		});
+	};
+
+	const handleEmailChange = (e) => {
+		e.preventDefault();
+		setUsername(e.target.value);
+	};
+
+	const handlePasswordChange = (e) => {
+		e.preventDefault();
+		setPassword(e.target.value);
+	};
 
 	return (
 		<Container component='main' maxWidth='xs'>
@@ -46,9 +78,10 @@ const Login = () => {
 				<Typography component='h1' variant='h5'>
 					Sign in
 				</Typography>
-				<form className={classes.form} noValidate>
+				<form className={classes.form} onSubmit={onSubmit} noValidate>
 					<OutlinedInput
 						className={classes.input}
+						onChange={handleEmailChange}
 						margin='none'
 						required
 						fullWidth
@@ -56,10 +89,11 @@ const Login = () => {
 					/>
 					<OutlinedInput
 						className={classes.input}
+						onChange={handlePasswordChange}
 						margin='none'
 						required
-            fullWidth
-            type="password"
+						fullWidth
+						type='password'
 						placeholder='Password'
 					/>
 					<FormControlLabel

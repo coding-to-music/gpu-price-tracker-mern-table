@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 	scrapeAll();
 } else {
 	// scrapeAll();
-	schedule.scheduleJob('*/5 * * * *', scrapeAll);
+	schedule.scheduleJob('*/60 * * * *', scrapeAll);
 }
 
 module.exports = scrapeAll;
