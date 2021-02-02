@@ -13,13 +13,15 @@ router.post('/signup', async (req, res, next) => {
 		const hash = await bcrypt.hash(password, 10);
 
 		if (!username || !/^(?=.{4})[a-z\d]*_?[a-z\d]+$/i.test(username))
-			res.json({ message: 'Invalid username', user, });
+			return res.json({ message: 'Invalid username', user });
 
-		if (User.find(username))
-			res.json({
+		const userExists = await User.findOne({ username }).exec();
+		if (userExists) {
+			return res.json({
 				message: 'Username already exists',
 				user,
 			});
+		}
 
 		user = await User.create({ username, password: hash });
 
@@ -29,7 +31,7 @@ router.post('/signup', async (req, res, next) => {
 		});
 	} catch (err) {
 		console.log(err);
-		res.json({ message: 'An error has occurred', user });
+		return res.json({ message: 'An error has occurred', user });
 	}
 });
 

@@ -1,16 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
-import { AuthContext } from '../../utils/AuthContext';
 import AuthService from '../../utils/AuthService';
+import { AuthContext } from '../../utils/AuthContext';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -32,30 +29,43 @@ const useStyles = makeStyles((theme) => ({
 	},
 	input: {
 		margin: theme.spacing(2, 0),
-		minHeight: '5rem',
+		minHeight: '3rem',
 	},
-	helperText: {
-		position: 'absolute',
+	alert: {
+		margin: theme.spacing(10, 0),
 	},
 }));
 
 const Register = (props) => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [userMessage, setUserMessage] = useState('');
-	const [passwordMessage, setPasswordMessage] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [message, setMessage] = useState('');
+	const [severity, setSeverity] = useState('error');
 
-	let time;
+	const { user, setUser, authenticated, setAuthenticated } = useContext(
+		AuthContext
+	);
 
 	const classes = useStyles();
 
 	const onSubmit = (e) => {
 		e.preventDefault();
+
+		if (password !== confirmPassword) {
+			setMessage("Passwords don't match");
+			return;
+		}
 		setUsername(username.trim().toLowerCase());
 		AuthService.register({ username, password }).then((data) => {
-			if (data.token) {
-				props.history.push('/login');
+			if (data.user) {
+				setSeverity('success');
+				setMessage(data.message);
+				setTimeout(() => {
+					props.history.push('/');
+				}, 5000);
 			} else {
+				setMessage(data.message);
 			}
 		});
 	};
@@ -70,12 +80,17 @@ const Register = (props) => {
 		setPassword(e.target.value);
 	};
 
+	const handleConfirmPasswordChange = (e) => {
+		e.preventDefault();
+		setConfirmPassword(e.target.value);
+	};
+
 	return (
 		<Container component='main' maxWidth='xs'>
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Typography component='h1' variant='h5'>
-					Sign in
+					Register
 				</Typography>
 				<form className={classes.form} onSubmit={onSubmit} noValidate>
 					<TextField
@@ -97,9 +112,15 @@ const Register = (props) => {
 						type='password'
 						placeholder='Password'
 					/>
-					<FormControlLabel
-						control={<Checkbox value='remember' color='#a90f0f' />}
-						label='Remember me'
+					<TextField
+						className={classes.input}
+						onChange={handleConfirmPasswordChange}
+						margin='none'
+						variant='outlined'
+						required
+						fullWidth
+						type='password'
+						placeholder='Confirm Password'
 					/>
 					<Button
 						type='submit'
@@ -107,16 +128,17 @@ const Register = (props) => {
 						variant='contained'
 						className={classes.submit}
 					>
-						Sign In
+						Register
 					</Button>
-					<Grid container>
-						<Grid item xs>
-							<Link href='#' variant='body2'>
-								{"Don't have an account? Sign Up"}
-							</Link>
-						</Grid>
-					</Grid>
-					
+					{message === '' ? null : (
+						<Alert
+							className={classes.alert}
+							variant='outlined'
+							severity={severity}
+						>
+							{message}
+						</Alert>
+					)}
 				</form>
 			</div>
 		</Container>

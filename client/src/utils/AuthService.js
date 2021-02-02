@@ -11,7 +11,7 @@ const AuthService = {
 		return await res.json();
 	},
 	register: async (user) => {
-		const res = await fetch('/auth/register', {
+		const res = await fetch('/auth/signup', {
 			method: 'post',
 			body: JSON.stringify(user),
 			headers: {

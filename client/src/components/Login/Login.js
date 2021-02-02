@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	input: {
 		margin: theme.spacing(2, 0),
-		minHeight: '5rem',
+		minHeight: '3rem',
 	},
 	alert: {
 		margin: theme.spacing(10, 0),
@@ -80,7 +80,7 @@ const Login = (props) => {
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Typography component='h1' variant='h5'>
-					Sign in
+					Log In
 				</Typography>
 				<form className={classes.form} onSubmit={onSubmit} noValidate>
 					<TextField
@@ -112,11 +112,11 @@ const Login = (props) => {
 						variant='contained'
 						className={classes.submit}
 					>
-						Sign In
+						Log In
 					</Button>
 					<Grid container>
 						<Grid item xs>
-							<Link href='#' variant='body2'>
+							<Link to='/register' href='#' variant='body2'>
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>

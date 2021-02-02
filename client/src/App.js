@@ -2,6 +2,7 @@ import './App.css';
 import GpuContainer from './components/GpuTable';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import Register from './components/Register';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import React, { useContext } from 'react';
@@ -11,9 +12,6 @@ function App() {
 	const { user, setUser, authenticated, setAuthenticated } = useContext(
 		AuthContext
 	);
-
-	// console.log(user);
-	// console.log(authenticated);
 
 	return (
 		<Router>
@@ -27,6 +25,7 @@ function App() {
 						render={() => <GpuContainer saved={true} />}
 					/>
 					<Route exact path='/login' component={Login} />
+					<Route exact path='/register' component={Register} />
 				</Switch>
 			</div>
 		</Router>
