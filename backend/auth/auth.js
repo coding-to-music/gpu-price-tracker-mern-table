@@ -3,7 +3,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
-const bcrypt = require('bcrypt');
 
 passport.use(
 	new JWTstrategy(
@@ -22,27 +21,6 @@ passport.use(
 );
 
 passport.use(
-	'signup',
-	new LocalStrategy(
-		{
-			usernameField: 'username',
-			passwordField: 'password',
-		},
-		async (username, password, done) => {
-			try {
-				// hash password with bcrypt
-				const hash = await bcrypt.hash(password, 10);
-				const user = await User.create({ username, password: hash });
-
-				return done(null, user);
-			} catch (error) {
-				done(error);
-			}
-		}
-	)
-);
-
-passport.use(
 	'login',
 	new LocalStrategy(
 		{
@@ -51,14 +29,13 @@ passport.use(
 		},
 		async (username, password, done) => {
 			try {
-        const user = await User.findOne({ username });
-        console.log(user);
+				const user = await User.findOne({ username });
+				// console.log(user);
 
-        const valid = await bcrypt.compare(password, user.password);
+				const valid = await bcrypt.compare(password, user.password);
 
-        
 				if (!user || !valid)
-					return done(null, false, { message: 'Incorrect /Password' });
+					return done(null, false, { message: 'Incorrect Password' });
 
 				return done(null, user, { message: 'Logged in Successfully' });
 			} catch (error) {

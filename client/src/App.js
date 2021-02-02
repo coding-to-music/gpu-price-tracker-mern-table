@@ -12,8 +12,8 @@ function App() {
 		AuthContext
 	);
 
-	console.log(user);
-	console.log(authenticated);
+	// console.log(user);
+	// console.log(authenticated);
 
 	return (
 		<Router>
