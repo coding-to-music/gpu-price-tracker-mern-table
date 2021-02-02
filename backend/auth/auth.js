@@ -35,13 +35,11 @@ passport.use(
 				if (!user)
 					return done(null, false, {
 						message: 'Invalid Username',
-						errorType: 'username',
 					});
 
 				if (!password)
 					return done(null, false, {
 						message: 'Invalid Password',
-						errorType: 'password',
 					});
 
 				const valid = await bcrypt.compare(password, user.password);
@@ -49,12 +47,10 @@ passport.use(
 				if (!valid)
 					return done(null, false, {
 						message: 'Incorrect Password',
-						errorType: 'password',
 					});
 
 				return done(null, user, {
 					message: 'Logged in Successfully',
-					errorType: null,
 				});
 			} catch (error) {
 				return done(error);

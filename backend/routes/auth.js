@@ -13,10 +13,13 @@ router.post('/signup', async (req, res, next) => {
 		const hash = await bcrypt.hash(password, 10);
 
 		if (!username || !/^(?=.{4})[a-z\d]*_?[a-z\d]+$/i.test(username))
-			res.json({ message: 'Invalid username', user });
+			res.json({ message: 'Invalid username', user, });
 
 		if (User.find(username))
-			res.json({ message: 'Username already exists', user });
+			res.json({
+				message: 'Username already exists',
+				user,
+			});
 
 		user = await User.create({ username, password: hash });
 
@@ -36,7 +39,6 @@ router.post('/login', async (req, res, next) => {
 			if (err || !user) {
 				return res.status(400).json({
 					message: info.message,
-					errorType: info.errorType,
 					user: user,
 				});
 			}

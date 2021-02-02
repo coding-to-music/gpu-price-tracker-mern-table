@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import { AuthContext } from '../../utils/AuthContext';
 import AuthService from '../../utils/AuthService';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -34,16 +35,15 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(2, 0),
 		minHeight: '5rem',
 	},
-	helperText: {
-		position: 'absolute',
+	alert: {
+		margin: theme.spacing(10, 0),
 	},
 }));
 
 const Login = (props) => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [userMessage, setUserMessage] = useState('');
-	const [passwordMessage, setPasswordMessage] = useState('');
+	const [message, setMessage] = useState('');
 
 	const { user, setUser, authenticated, setAuthenticated } = useContext(
 		AuthContext
@@ -60,11 +60,7 @@ const Login = (props) => {
 				setAuthenticated(true);
 				props.history.push('/');
 			} else {
-				if (data.errorType == 'username') {
-					setUserMessage(data.message);
-				} else if (data.errorType == 'password') {
-					setPasswordMessage(data.message);
-				}
+				setMessage(data.message);
 			}
 		});
 	};
@@ -94,9 +90,6 @@ const Login = (props) => {
 						variant='outlined'
 						required
 						fullWidth
-						error={userMessage !== ''}
-						helperText={userMessage}
-						FormHelperTextProps={{ root: classes.helperText }}
 						placeholder='Username'
 					/>
 					<TextField
@@ -106,9 +99,6 @@ const Login = (props) => {
 						variant='outlined'
 						required
 						fullWidth
-						error={passwordMessage !== ''}
-						helperText={passwordMessage}
-						FormHelperTextProps={{ root: classes.helperText }}
 						type='password'
 						placeholder='Password'
 					/>
@@ -131,6 +121,15 @@ const Login = (props) => {
 							</Link>
 						</Grid>
 					</Grid>
+					{message === '' ? null : (
+						<Alert
+							className={classes.alert}
+							variant='outlined'
+							severity='error'
+						>
+							{message}
+						</Alert>
+					)}
 				</form>
 			</div>
 		</Container>
