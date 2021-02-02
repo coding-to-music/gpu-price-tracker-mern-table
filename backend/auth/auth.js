@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
+const bcrypt = require('bcrypt');
 
 passport.use(
 	new JWTstrategy(
@@ -30,14 +31,14 @@ passport.use(
 		async (username, password, done) => {
 			try {
 				const user = await User.findOne({ username });
-				// console.log(user);
+
+				if (!user) return done(null, false, 'Invalid Username');
 
 				const valid = await bcrypt.compare(password, user.password);
 
-				if (!user || !valid)
-					return done(null, false, { message: 'Incorrect Password' });
+				if (!valid) return done(null, false, 'Incorrect Password');
 
-				return done(null, user, { message: 'Logged in Successfully' });
+				return done(null, user, 'Logged in Successfully');
 			} catch (error) {
 				return done(error);
 			}
