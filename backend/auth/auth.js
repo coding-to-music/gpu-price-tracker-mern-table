@@ -25,14 +25,14 @@ passport.use(
 	'signup',
 	new LocalStrategy(
 		{
-			usernameField: 'email',
+			usernameField: 'username',
 			passwordField: 'password',
 		},
-		async (email, password, done) => {
+		async (username, password, done) => {
 			try {
 				// hash password with bcrypt
 				const hash = await bcrypt.hash(password, 10);
-				const user = await User.create({ email: email, password: hash });
+				const user = await User.create({ username, password: hash });
 
 				return done(null, user);
 			} catch (error) {
@@ -46,19 +46,19 @@ passport.use(
 	'login',
 	new LocalStrategy(
 		{
-			usernameField: 'email',
+			usernameField: 'username',
 			passwordField: 'password',
 		},
-		async (email, password, done) => {
+		async (username, password, done) => {
 			try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ username });
         console.log(user);
 
         const valid = await bcrypt.compare(password, user.password);
 
         
 				if (!user || !valid)
-					return done(null, false, { message: 'Incorrect Email/Password' });
+					return done(null, false, { message: 'Incorrect /Password' });
 
 				return done(null, user, { message: 'Logged in Successfully' });
 			} catch (error) {

@@ -49,10 +49,10 @@ const Login = (props) => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		const email = username.trim().toLowerCase();
-		AuthService.login({ email, password }).then((data) => {
+		setUsername(username.trim().toLowerCase());
+		AuthService.login({ username, password }).then((data) => {
 			if (data.token) {
-				setUser(email);
+				setUser(username);
 				setAuthenticated(true);
 				props.history.push('/');
 			} else {
@@ -61,7 +61,7 @@ const Login = (props) => {
 		});
 	};
 
-	const handleEmailChange = (e) => {
+	const handleUsernameChange = (e) => {
 		e.preventDefault();
 		setUsername(e.target.value);
 	};
@@ -81,11 +81,11 @@ const Login = (props) => {
 				<form className={classes.form} onSubmit={onSubmit} noValidate>
 					<OutlinedInput
 						className={classes.input}
-						onChange={handleEmailChange}
+						onChange={handleUsernameChange}
 						margin='none'
 						required
 						fullWidth
-						placeholder='Email Address'
+						placeholder='Username'
 					/>
 					<OutlinedInput
 						className={classes.input}
