@@ -8,8 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-
+import TextField from '@material-ui/core/TextField';
 import { AuthContext } from '../../utils/AuthContext';
 import AuthService from '../../utils/AuthService';
 
@@ -33,13 +32,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 	input: {
 		margin: theme.spacing(2, 0),
+		minHeight: '5rem',
+	},
+	helperText: {
+		position: 'absolute',
 	},
 }));
 
 const Login = (props) => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [message, setMessage] = useState('');
+	const [userMessage, setUserMessage] = useState('');
+	const [passwordMessage, setPasswordMessage] = useState('');
 
 	const { user, setUser, authenticated, setAuthenticated } = useContext(
 		AuthContext
@@ -56,7 +60,11 @@ const Login = (props) => {
 				setAuthenticated(true);
 				props.history.push('/');
 			} else {
-        console.log(data.message);
+				if (data.errorType == 'username') {
+					setUserMessage(data.message);
+				} else if (data.errorType == 'password') {
+					setPasswordMessage(data.message);
+				}
 			}
 		});
 	};
@@ -79,20 +87,28 @@ const Login = (props) => {
 					Sign in
 				</Typography>
 				<form className={classes.form} onSubmit={onSubmit} noValidate>
-					<OutlinedInput
+					<TextField
 						className={classes.input}
 						onChange={handleUsernameChange}
 						margin='none'
+						variant='outlined'
 						required
 						fullWidth
+						error={userMessage !== ''}
+						helperText={userMessage}
+						FormHelperTextProps={{ root: classes.helperText }}
 						placeholder='Username'
 					/>
-					<OutlinedInput
+					<TextField
 						className={classes.input}
 						onChange={handlePasswordChange}
 						margin='none'
+						variant='outlined'
 						required
 						fullWidth
+						error={passwordMessage !== ''}
+						helperText={passwordMessage}
+						FormHelperTextProps={{ root: classes.helperText }}
 						type='password'
 						placeholder='Password'
 					/>
@@ -110,11 +126,6 @@ const Login = (props) => {
 					</Button>
 					<Grid container>
 						<Grid item xs>
-							<Link href='#' variant='body2'>
-								Forgot password?
-							</Link>
-						</Grid>
-						<Grid item>
 							<Link href='#' variant='body2'>
 								{"Don't have an account? Sign Up"}
 							</Link>

@@ -35,7 +35,8 @@ router.post('/login', async (req, res, next) => {
 		try {
 			if (err || !user) {
 				return res.status(400).json({
-					message: info,
+					message: info.message,
+					errorType: info.errorType,
 					user: user,
 				});
 			}

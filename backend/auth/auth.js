@@ -32,13 +32,30 @@ passport.use(
 			try {
 				const user = await User.findOne({ username });
 
-				if (!user) return done(null, false, 'Invalid Username');
+				if (!user)
+					return done(null, false, {
+						message: 'Invalid Username',
+						errorType: 'username',
+					});
+
+				if (!password)
+					return done(null, false, {
+						message: 'Invalid Password',
+						errorType: 'password',
+					});
 
 				const valid = await bcrypt.compare(password, user.password);
 
-				if (!valid) return done(null, false, 'Incorrect Password');
+				if (!valid)
+					return done(null, false, {
+						message: 'Incorrect Password',
+						errorType: 'password',
+					});
 
-				return done(null, user, 'Logged in Successfully');
+				return done(null, user, {
+					message: 'Logged in Successfully',
+					errorType: null,
+				});
 			} catch (error) {
 				return done(error);
 			}
