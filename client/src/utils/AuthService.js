@@ -22,15 +22,9 @@ const AuthService = {
 		return await res.json();
 	},
 	isAuthenticated: async (user) => {
-		const res = await fetch('/auth/login', {
-			method: 'post',
-			body: JSON.stringify(user),
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
-
-		return await res.json();
+		const res = await fetch('/auth/authenticated');
+    const data = await res.json();
+		return data;
 	},
 };
 

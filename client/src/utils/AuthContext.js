@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
 	const [authenticated, setAuthenticated] = useState(false);
 
 	useEffect(() => {
-		AuthService.isAuthenticated().then(({ user, authenticated }) => {
+		AuthService.isAuthenticated().then(({ authenticated, user }) => {
 			setUser(user);
 			setAuthenticated(authenticated);
 		});
