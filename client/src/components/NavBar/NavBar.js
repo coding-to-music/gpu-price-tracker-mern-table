@@ -81,9 +81,6 @@ const NavBar = ({ setSaved }) => {
 					<Link to='/' href='#' className={styles.navbarButton}>
 						Home
 					</Link>
-					<Link to='/saved' href='#' className={styles.navbarButton}>
-						Saved
-					</Link>
 					{!authenticated ? (
 						<>
 							<Link to='/login' href='#' className={styles.navbarButton}>
@@ -94,9 +91,14 @@ const NavBar = ({ setSaved }) => {
 							</Link>
 						</>
 					) : (
-						<Link to='/logout' href='#' className={styles.navbarButton}>
-							Logout
-						</Link>
+						<>
+							<Link to='/saved' href='#' className={styles.navbarButton}>
+								Saved
+							</Link>
+							<Link to='/logout' href='#' className={styles.navbarButton}>
+								Logout
+							</Link>
+						</>
 					)}
 				</Typography>
 			</Toolbar>
