@@ -5,11 +5,22 @@ const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const bcrypt = require('bcrypt');
 
+const cookieExtractor = (req) => {
+	let token = null;
+  console.log(req);
+  if (req.cookies) console.log("TEST")
+	if (req && req.cookies) {
+		console.log('TOKEN', req.cookies['access_token']);
+		token = req.cookies['access_token'];
+	}
+	return token;
+};
+
 passport.use(
 	new JWTstrategy(
 		{
 			secretOrKey: 'test',
-			jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+			jwtFromRequest: cookieExtractor,
 		},
 		async (token, done) => {
 			try {
@@ -49,9 +60,13 @@ passport.use(
 						message: 'Incorrect Password',
 					});
 
-				return done(null, user, {
-					message: 'Logged in Successfully',
-				});
+				return done(
+					null,
+					{ username: user.username, saved: user.saved },
+					{
+						message: 'Logged in Successfully',
+					}
+				);
 			} catch (error) {
 				return done(error);
 			}

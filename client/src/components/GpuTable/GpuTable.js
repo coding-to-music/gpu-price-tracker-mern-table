@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import MaUTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableToolbar from './TableToolbar';
 import { makeStyles } from '@material-ui/core';
 import PlusCheckbox from './PlusCheckbox';
+import { AuthContext } from '../../utils/AuthContext';
 
 import {
 	usePagination,
@@ -39,6 +40,10 @@ export const GpuTable = ({
 	skipPageReset,
 	lastUpdated,
 }) => {
+	const { user, setUser, authenticated, setAuthenticated } = useContext(
+		AuthContext
+	);
+
 	const {
 		getTableProps,
 		headerGroups,
@@ -70,7 +75,8 @@ export const GpuTable = ({
 
 					Header: () => <div style={{ marginLeft: '-4vw' }} />,
 
-					Cell: ({ row }) => <PlusCheckbox row={row} />,
+					Cell: ({ row }) =>
+						authenticated ? <PlusCheckbox row={row} /> : <></>,
 				},
 				...columns,
 			]);

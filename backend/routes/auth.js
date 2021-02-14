@@ -48,8 +48,9 @@ router.post('/login', async (req, res, next) => {
 			req.login(user, { session: false }, async (error) => {
 				if (error) return next(error);
 
-				const body = { _id: user._id, username: user.username };
+				const body = { user };
 				const token = jwt.sign({ user: body }, 'test', { expiresIn: '60m' });
+				res.cookie('access_token', token);
 
 				return res.json({ token });
 			});
@@ -59,12 +60,34 @@ router.post('/login', async (req, res, next) => {
 	})(req, res, next);
 });
 
+router.post(
+	'/logout',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		res.clearCookie('access_token');
+		res.json({ success: true });
+	}
+);
+
 router.get(
 	'/authenticated',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
 		// console.log(req.user);
 		res.json({ authenticated: true, user: req.user });
+	}
+);
+
+router.post(
+	'/save',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		console.log(req.user);
+		req.user.saved.push(res.id);
+		req.user.save((err) => {
+			if (err) res.status(500).json({ message: 'An error occurred', id: null });
+			else res.status(200).json({ message: 'Successfully saved', id: res.id });
+		});
 	}
 );
 
