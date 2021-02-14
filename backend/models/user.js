@@ -13,7 +13,7 @@ const userSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	saved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Gpu' }],
+	saved: [{ type: String }],
 });
 
 const userDB = mongoose.connection.useDb('users');

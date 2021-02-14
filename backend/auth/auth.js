@@ -20,11 +20,12 @@ passport.use(
 			jwtFromRequest: cookieExtractor,
 		},
 		async (payload, done) => {
-			try {
-				return done(null, payload.body);
-			} catch (error) {
-				done(error);
-			}
+			const username = payload.user.username;
+			User.findOne({ username }, (err, user) => {
+				if (err) return done(err, false);
+				if (user) return done(null, user);
+				else return done(null, false);
+			});
 		}
 	)
 );
