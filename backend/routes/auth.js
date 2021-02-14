@@ -49,8 +49,8 @@ router.post('/login', async (req, res, next) => {
 				if (error) return next(error);
 
 				const body = { user };
-				const token = jwt.sign({ user: body }, 'test', { expiresIn: '60m' });
-				res.cookie('access_token', token);
+				const token = jwt.sign({ body }, 'test', { expiresIn: '60m' });
+				res.cookie('access_token', token, { httpOnly: true, sameSite: true });
 
 				return res.json({ token });
 			});
@@ -82,8 +82,7 @@ router.post(
 	'/save',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		console.log(req.user);
-		req.user.saved.push(res.id);
+		req.user.user.saved.push(res.id);
 		req.user.save((err) => {
 			if (err) res.status(500).json({ message: 'An error occurred', id: null });
 			else res.status(200).json({ message: 'Successfully saved', id: res.id });

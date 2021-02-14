@@ -7,10 +7,7 @@ const bcrypt = require('bcrypt');
 
 const cookieExtractor = (req) => {
 	let token = null;
-  console.log(req);
-  if (req.cookies) console.log("TEST")
 	if (req && req.cookies) {
-		console.log('TOKEN', req.cookies['access_token']);
 		token = req.cookies['access_token'];
 	}
 	return token;
@@ -22,9 +19,9 @@ passport.use(
 			secretOrKey: 'test',
 			jwtFromRequest: cookieExtractor,
 		},
-		async (token, done) => {
+		async (payload, done) => {
 			try {
-				return done(null, token.user);
+				return done(null, payload.body);
 			} catch (error) {
 				done(error);
 			}
