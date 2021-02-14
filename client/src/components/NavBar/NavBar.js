@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../utils/AuthContext';
+import AuthService from '../../utils/AuthService';
+import { PromiseProvider } from 'mongoose';
 
 const useStyles = makeStyles((theme) => ({
 	navbar: {
@@ -64,12 +66,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const NavBar = ({ setSaved }) => {
+const NavBar = () => {
 	const styles = useStyles();
 
 	const { user, setUser, authenticated, setAuthenticated } = useContext(
 		AuthContext
 	);
+
+	const handleLogout = async (e) => {
+    e.preventDefault();
+		const res = await AuthService.logout();
+    window.location.reload();
+	};
 
 	return (
 		<AppBar className={styles.navbar}>
@@ -95,7 +103,12 @@ const NavBar = ({ setSaved }) => {
 							<Link to='/saved' href='#' className={styles.navbarButton}>
 								Saved
 							</Link>
-							<Link to='/logout' href='#' className={styles.navbarButton}>
+							<Link
+								to='/'
+								onClick={handleLogout}
+								href='#'
+								className={styles.navbarButton}
+							>
 								Logout
 							</Link>
 						</>

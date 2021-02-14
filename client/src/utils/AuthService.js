@@ -23,7 +23,14 @@ const AuthService = {
 	},
 	isAuthenticated: async (user) => {
 		const res = await fetch('/auth/authenticated');
-    const data = await res.json();
+		const data = await res.json();
+		return data;
+	},
+	logout: async () => {
+		const res = await fetch('/auth/logout', {
+			method: 'post',
+		});
+		const data = await res.json();
 		return data;
 	},
 };
