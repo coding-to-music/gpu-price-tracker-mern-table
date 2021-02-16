@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { COLUMNS } from './columns/columns';
 import { getAllGpus, getLastUpdatedDate } from '../../api';
 import { GpuTable } from './GpuTable';
+import { AuthContext } from '../../utils/AuthContext';
 
 const GpuContainer = (props) => {
 	const [data, setData] = useState([]);
@@ -12,6 +13,10 @@ const GpuContainer = (props) => {
 	const [tableData, setTableData] = useState([]);
 	const [lastUpdated, setLastUpdated] = useState('');
 	const [skipPageReset, setSkipPageReset] = useState(false);
+
+	const { user, setUser, authenticated, setAuthenticated } = useContext(
+		AuthContext
+	);
 
 	const updateMyData = () => {
 		setSkipPageReset(true);
@@ -41,7 +46,6 @@ const GpuContainer = (props) => {
 					retailer: gpu.retailer,
 				}));
 				setData(data);
-				handleSaved(data);
 			})
 			.catch((error) => {
 				setData([]);
