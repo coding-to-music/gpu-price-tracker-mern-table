@@ -5,7 +5,12 @@ import Login from './components/Login';
 import Register from './components/Register';
 import NotFound from './components/NotFound';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Redirect,
+} from 'react-router-dom';
 import React, { useContext } from 'react';
 import { AuthContext } from './utils/AuthContext';
 
@@ -24,10 +29,16 @@ function App() {
 						exact
 						path='/saved'
 						render={() => <GpuContainer saved={true} />}
-					/>
+					>
+						{!authenticated ? (
+							<Redirect to='/login' />
+						) : (
+							<GpuContainer saved={false} />
+						)}
+					</Route>
 					<Route exact path='/login' component={Login} />
 					<Route exact path='/register' component={Register} />
-          <Route path='*' component={NotFound} />
+					<Route path='*' component={NotFound} />
 				</Switch>
 			</div>
 		</Router>

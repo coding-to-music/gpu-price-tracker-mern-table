@@ -45,7 +45,7 @@ const GpuContainer = (props) => {
 					link: gpu.link,
 					retailer: gpu.retailer,
 				}));
-				setData(data);
+				setTableData(data);
 			})
 			.catch((error) => {
 				setData([]);
@@ -59,18 +59,11 @@ const GpuContainer = (props) => {
 			.catch((error) => {
 				console.log(error);
 			});
+
+		if (props.saved) {
+      console.log('test');
+    }
 	}, []);
-
-	useEffect(() => {
-		if (
-			data.length !== 0 &&
-			Object.keys(localStorage).length !== localData.length
-		) {
-			handleSaved(data);
-		}
-
-		props.saved ? setTableData(localData) : setTableData(data);
-	}, [localStorage, props.saved, localData]);
 
 	const columns = useMemo(() => COLUMNS, []);
 

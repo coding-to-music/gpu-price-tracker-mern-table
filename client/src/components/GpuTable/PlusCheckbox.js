@@ -23,7 +23,7 @@ const PlusCheckbox = (props) => {
 		setChecked(localStorage.getItem(row.original.id) !== null);
 	};
 
-	return (
+	return authenticated ? (
 		<div
 			style={{
 				transform: 'translate(+20%, +40%)',
@@ -40,6 +40,8 @@ const PlusCheckbox = (props) => {
 				checked={checked}
 			/>
 		</div>
+	) : (
+		<></>
 	);
 };
 
