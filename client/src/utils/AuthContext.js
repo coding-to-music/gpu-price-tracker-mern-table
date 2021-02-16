@@ -8,12 +8,17 @@ const AuthProvider = ({ children }) => {
 	const [authenticated, setAuthenticated] = useState(false);
 	const [authChecked, setAuthChecked] = useState(false);
 
-	const handleAuth = async () => {
-		const { authenticated, user } = await AuthService.isAuthenticated();
-		setAuthChecked(true);
-		setAuthenticated(authenticated);
-		setUser(user);
-    console.log('test');
+	const handleAuth = () => {
+		AuthService.isAuthenticated().then((data) => {
+			if (data.err) {
+				console.log('Error: ' + data.message);
+				return;
+			} else {
+				setAuthenticated(data.authenticated);
+				setUser(data.user);
+			}
+			setAuthChecked(true);
+		});
 	};
 
 	useEffect(() => {

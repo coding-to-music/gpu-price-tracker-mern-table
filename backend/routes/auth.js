@@ -92,7 +92,7 @@ router.post(
 	}
 );
 
-router.post(
+router.get(
 	'/saved',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
