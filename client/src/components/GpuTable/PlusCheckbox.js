@@ -3,6 +3,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import { AuthContext } from '../../utils/AuthContext';
+import GpuService from '../../utils/GpuService';
 
 const PlusCheckbox = (props) => {
 	const { row } = props;
@@ -12,7 +13,10 @@ const PlusCheckbox = (props) => {
 	);
 
 	useEffect(() => {
-		setChecked(!!localStorage.getItem(row.original.id));
+		if (authenticated)
+			GpuService.getSaved().then(({ saved }) => {
+				setChecked(saved.includes(row.original.id));
+			});
 	}, [row]);
 
 	const handleSaveData = (data) => {

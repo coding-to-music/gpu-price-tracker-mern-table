@@ -10,7 +10,9 @@ import GpuService from '../../utils/GpuService';
 
 const GpuContainer = (props) => {
 	const [data, setData] = useState([]);
+	const [allData, setAllData] = useState([]);
 	const [savedData, setSavedData] = useState([]);
+	const [saved, setSaved] = useState([]);
 	const [lastUpdated, setLastUpdated] = useState('');
 	const [skipPageReset, setSkipPageReset] = useState(false);
 
@@ -34,7 +36,7 @@ const GpuContainer = (props) => {
 					link: gpu.link,
 					retailer: gpu.retailer,
 				}));
-				setData(data);
+				setAllData(data);
 			})
 			.catch((error) => {
 				setData([]);
@@ -49,24 +51,33 @@ const GpuContainer = (props) => {
 				console.log(error);
 			});
 
-		if (props.saved) {
-			GpuService.getSaved()
-				.then(({ saved }) => {
-					var savedArr = [];
-
-					saved.forEach((id) =>
-						savedArr.push(data.find((item) => item.id === id))
-					);
-
-					if (savedArr[0] !== undefined) {
-						setSavedData(savedArr);
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}
+		GpuService.getSaved()
+			.then(({ saved }) => {
+				setSaved(saved);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}, []);
+
+	const handleSaved = () => {
+		var savedArr = [];
+
+		saved.forEach((id) => savedArr.push(data.find((item) => item.id === id)));
+
+		if (savedArr[0] !== undefined) {
+			setSavedData(savedArr);
+      setData(savedData);
+		}
+	};
+
+	useEffect(() => {
+		if (props.saved) {
+			handleSaved();
+		} else {
+      setData(allData);
+    }
+	}, [props.saved, saved]);
 
 	const columns = useMemo(() => COLUMNS, []);
 
@@ -75,7 +86,7 @@ const GpuContainer = (props) => {
 			<CssBaseline />
 			<GpuTable
 				columns={columns}
-				data={props.saved ? savedData : data}
+				data={data}
 				updateMyData={updateMyData}
 				skipPageReset={skipPageReset}
 				lastUpdated={lastUpdated}
