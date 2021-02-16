@@ -41,7 +41,8 @@ router.delete(
 			res
 				.status(406)
 				.json({ messaage: 'Could not find GPU in saved', id: null });
-		else
+		else {
+			req.user.saved = filtered;
 			req.user.save((err) => {
 				if (err)
 					res.status(500).json({ message: 'An error occurred', id: null });
@@ -50,6 +51,7 @@ router.delete(
 						.status(200)
 						.json({ message: 'Successfully deleted', id: req.body.id });
 			});
+		}
 	}
 );
 

@@ -21,10 +21,18 @@ const PlusCheckbox = (props) => {
 
 	const handleSaveData = async (data) => {
 		if (authenticated) {
-			const res = await GpuService.save({ id: data.id });
-      if (res.id !== null) {
-        setChecked(!checked);
-      }
+			if (!checked) {
+				const res = await GpuService.save({ id: data.id });
+				if (res.id !== null) {
+					setChecked(!checked);
+				}
+			} else {
+				const res = await GpuService.delete({ id: data.id });
+				if (res.id !== null) {
+          console.log(res);
+					setChecked(!checked);
+				}
+			}
 		}
 	};
 

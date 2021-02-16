@@ -63,22 +63,27 @@ const GpuContainer = (props) => {
 
 	const handleSaved = async () => {
 		const { saved } = await GpuService.getSaved();
-		setSaved(saved);
-		var savedArr = [];
-
-		saved.forEach((id) => savedArr.push(allData.find((item) => item.id === id)));
-		if (savedArr[0] !== undefined) {
-			setSavedData(savedArr);
-		}
 
 		if (props.saved) {
-			setData(savedData);
+			setSaved(saved);
+			var savedArr = [];
+
+      console.log(saved);
+			saved.forEach((id) =>
+				savedArr.push(allData.find((item) => item.id === id))
+			);
+			if (savedArr[0] !== undefined) {
+				setSavedData(savedArr);
+        setData(savedArr);
+			}
+			
 		} else {
 			setData(allData);
 		}
 	};
 
 	useEffect(() => {
+		console.log('HANDLING SAVED');
 		handleSaved();
 	}, [props.saved, allData]);
 

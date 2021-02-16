@@ -9,7 +9,7 @@ const GpuService = {
 			return data;
 		}
 	},
-	save: async (id) => {;
+	save: async (id) => {
 		const res = await fetch('/gpus/save', {
 			method: 'post',
 			body: JSON.stringify(id),
@@ -24,6 +24,18 @@ const GpuService = {
 			const data = await res.json();
 			return data;
 		}
+	},
+	delete: async (id) => {
+		const res = await fetch('/gpus/delete', {
+			method: 'delete',
+			body: JSON.stringify(id),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		const data = await res.json();
+		return data;
 	},
 };
 
