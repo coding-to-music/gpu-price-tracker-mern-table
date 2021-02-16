@@ -1,6 +1,6 @@
 const GpuService = {
 	getSaved: async () => {
-		const res = await fetch('/auth/saved');
+		const res = await fetch('/gpus/saved');
 
 		if (res.status === 401) {
 			return { saved: null, message: 'Unauthorized' };
@@ -10,7 +10,7 @@ const GpuService = {
 		}
 	},
 	save: async (id) => {;
-		const res = await fetch('/auth/save', {
+		const res = await fetch('/gpus/save', {
 			method: 'post',
 			body: JSON.stringify(id),
 			headers: {
