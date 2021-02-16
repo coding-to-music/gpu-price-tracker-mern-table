@@ -15,9 +15,13 @@ import React, { useContext } from 'react';
 import { AuthContext } from './utils/AuthContext';
 
 function App() {
-	const { user, setUser, authenticated, setAuthenticated } = useContext(
-		AuthContext
-	);
+	const {
+		user,
+		setUser,
+		authenticated,
+		setAuthenticated,
+		authChecked,
+	} = useContext(AuthContext);
 
 	return (
 		<Router>
@@ -25,15 +29,13 @@ function App() {
 				<Navbar />
 				<Switch>
 					<Route exact path='/' render={() => <GpuContainer saved={false} />} />
-					<Route
-						exact
-						path='/saved'
-						render={() => <GpuContainer saved={true} />}
-					>
-						{!authenticated ? (
-							<Redirect to='/login' />
+					<Route exact path='/saved'>
+						{!authChecked ? (
+							<></>
+						) : authenticated ? (
+							<GpuContainer saved={true} />
 						) : (
-							<GpuContainer saved={false} />
+							<Redirect to='/login' />
 						)}
 					</Route>
 					<Route exact path='/login' component={Login} />

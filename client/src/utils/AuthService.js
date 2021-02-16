@@ -23,8 +23,11 @@ const AuthService = {
 	},
 	isAuthenticated: async (user) => {
 		const res = await fetch('/auth/authenticated');
-		const data = await res.json();
-		return data;
+		if (res.status === 401) {
+			return { message: 'Unauthorized', error: true };
+		} else {
+			return await res.json();
+		}
 	},
 	logout: async () => {
 		const res = await fetch('/auth/logout', {

@@ -6,11 +6,10 @@ import { COLUMNS } from './columns/columns';
 import { getAllGpus, getLastUpdatedDate } from '../../api';
 import { GpuTable } from './GpuTable';
 import { AuthContext } from '../../utils/AuthContext';
+import GpuService from '../../utils/GpuService';
 
 const GpuContainer = (props) => {
 	const [data, setData] = useState([]);
-	const [localData, setLocalData] = useState([]);
-	const [tableData, setTableData] = useState([]);
 	const [lastUpdated, setLastUpdated] = useState('');
 	const [skipPageReset, setSkipPageReset] = useState(false);
 
@@ -20,17 +19,6 @@ const GpuContainer = (props) => {
 
 	const updateMyData = () => {
 		setSkipPageReset(true);
-	};
-
-	const handleSaved = (data) => {
-		const keys = Object.keys(localStorage);
-		var local = [];
-
-		keys.forEach((key) => local.push(data.find((item) => item.id === key)));
-
-		if (local[0] !== undefined) setLocalData(local);
-
-		props.saved ? setTableData(localData) : setTableData(data);
 	};
 
 	useEffect(() => {
@@ -45,7 +33,7 @@ const GpuContainer = (props) => {
 					link: gpu.link,
 					retailer: gpu.retailer,
 				}));
-				setTableData(data);
+				setData(data);
 			})
 			.catch((error) => {
 				setData([]);
@@ -61,8 +49,15 @@ const GpuContainer = (props) => {
 			});
 
 		if (props.saved) {
-      console.log('test');
-    }
+			GpuService.getSaved()
+				.then((saved) => {
+					console.log(saved);
+					console.log(data);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	}, []);
 
 	const columns = useMemo(() => COLUMNS, []);
@@ -72,7 +67,7 @@ const GpuContainer = (props) => {
 			<CssBaseline />
 			<GpuTable
 				columns={columns}
-				data={tableData}
+				data={data}
 				updateMyData={updateMyData}
 				skipPageReset={skipPageReset}
 				lastUpdated={lastUpdated}
