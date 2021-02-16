@@ -9,7 +9,7 @@ const GpuService = {
 			return data;
 		}
 	},
-	save: async (id) => {
+	save: async (id) => {;
 		const res = await fetch('/auth/save', {
 			method: 'post',
 			body: JSON.stringify(id),

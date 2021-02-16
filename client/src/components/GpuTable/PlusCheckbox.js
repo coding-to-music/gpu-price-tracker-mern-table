@@ -19,12 +19,13 @@ const PlusCheckbox = (props) => {
 			});
 	}, [row]);
 
-	const handleSaveData = (data) => {
-		localStorage.getItem(data.id) == null
-			? localStorage.setItem(data.id, JSON.stringify(data))
-			: localStorage.removeItem(data.id);
-
-		setChecked(localStorage.getItem(row.original.id) !== null);
+	const handleSaveData = async (data) => {
+		if (authenticated) {
+			const res = await GpuService.save({ id: data.id });
+      if (res.id !== null) {
+        setChecked(!checked);
+      }
+		}
 	};
 
 	return authenticated ? (

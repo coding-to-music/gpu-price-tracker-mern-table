@@ -37,6 +37,7 @@ const GpuContainer = (props) => {
 					retailer: gpu.retailer,
 				}));
 				setAllData(data);
+				handleSaved();
 			})
 			.catch((error) => {
 				setData([]);
@@ -60,24 +61,26 @@ const GpuContainer = (props) => {
 			});
 	}, []);
 
-	const handleSaved = () => {
+	const handleSaved = async () => {
+		const { saved } = await GpuService.getSaved();
+		setSaved(saved);
 		var savedArr = [];
 
-		saved.forEach((id) => savedArr.push(data.find((item) => item.id === id)));
-
+		saved.forEach((id) => savedArr.push(allData.find((item) => item.id === id)));
 		if (savedArr[0] !== undefined) {
 			setSavedData(savedArr);
-      setData(savedData);
+		}
+
+		if (props.saved) {
+			setData(savedData);
+		} else {
+			setData(allData);
 		}
 	};
 
 	useEffect(() => {
-		if (props.saved) {
-			handleSaved();
-		} else {
-      setData(allData);
-    }
-	}, [props.saved, saved]);
+		handleSaved();
+	}, [props.saved, allData]);
 
 	const columns = useMemo(() => COLUMNS, []);
 

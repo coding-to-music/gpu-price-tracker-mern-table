@@ -81,13 +81,13 @@ router.post(
 	'/save',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		req.user.saved.push(req.body.gpuid);
+		req.user.saved.push(req.body.id);
 		req.user.save((err) => {
 			if (err) res.status(500).json({ message: 'An error occurred', id: null });
 			else
 				res
 					.status(200)
-					.json({ message: 'Successfully saved', id: req.body.gpuid });
+					.json({ message: 'Successfully saved', id: req.body.id });
 		});
 	}
 );
