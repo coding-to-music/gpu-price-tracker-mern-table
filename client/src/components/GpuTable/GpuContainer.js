@@ -10,6 +10,7 @@ import GpuService from '../../utils/GpuService';
 
 const GpuContainer = (props) => {
 	const [data, setData] = useState([]);
+	const [savedData, setSavedData] = useState([]);
 	const [lastUpdated, setLastUpdated] = useState('');
 	const [skipPageReset, setSkipPageReset] = useState(false);
 
@@ -50,9 +51,16 @@ const GpuContainer = (props) => {
 
 		if (props.saved) {
 			GpuService.getSaved()
-				.then((saved) => {
-					console.log(saved);
-					console.log(data);
+				.then(({ saved }) => {
+					var savedArr = [];
+
+					saved.forEach((id) =>
+						savedArr.push(data.find((item) => item.id === id))
+					);
+
+					if (savedArr[0] !== undefined) {
+						setSavedData(savedArr);
+					}
 				})
 				.catch((error) => {
 					console.log(error);
@@ -67,7 +75,7 @@ const GpuContainer = (props) => {
 			<CssBaseline />
 			<GpuTable
 				columns={columns}
-				data={data}
+				data={props.saved ? savedData : data}
 				updateMyData={updateMyData}
 				skipPageReset={skipPageReset}
 				lastUpdated={lastUpdated}
