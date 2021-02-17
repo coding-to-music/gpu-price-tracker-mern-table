@@ -1,6 +1,6 @@
 import './App.css';
 import GpuContainer from './components/GpuTable';
-import Navbar from './components/Navbar';
+import Navbar from './components/NavBar';
 import Login from './components/Login';
 import Register from './components/Register';
 import NotFound from './components/NotFound';
