@@ -12,7 +12,7 @@ const scrapeAll = () => {
 };
 
 if (process.env.NODE_ENV === 'production') {
-	scrapeAll();
+	// scrapeAll();
 } else {
 	// scrapeAll();
 	schedule.scheduleJob('*/60 * * * *', scrapeAll);
