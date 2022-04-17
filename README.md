@@ -10,9 +10,11 @@ https://github.com/coding-to-music/gpu-price-tracker-mern-table
 
 https://gpu-price-tracker-mern-table.herokuapp.com
 
-by MrsKamran https://github.com/MrsKamran
+by Jayden-Chiu https://github.com/Jayden-Chiu
 
-https://github.com/MrsKamran/habit-tracker
+https://github.com/Jayden-Chiu/GPUPriceTracker
+
+https://gpu-price-tracker.herokuapp.com/
 
 # GPUPriceTracker
 
