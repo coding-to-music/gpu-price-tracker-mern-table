@@ -134,6 +134,7 @@ heroku create gpu-price-tracker-mern-table
 ```java
 heroku config:set
 
+
 heroku config:set MONGODB_URI="mongodb+srv://<userid>:<password>@cluster0.zadqe.mongodb.net/gpu-price-tracker-mern-table?retryWrites=true&w=majority"
 heroku config:set PASSWORD="something-secret"
 
