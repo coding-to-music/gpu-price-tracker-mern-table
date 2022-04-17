@@ -1,17 +1,22 @@
 {
-  "name": "backend",
+  "name": "gpu-price-tracker-mern-table",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": ">=12.0.0"
+    "node": "16.x"
   },
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
   "scripts": {
     "server": "cd backend && nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install && npm run build",
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+    "deploy": "git add . && git commit -m Heroku && git push && git push heroku && heroku logs --tail --remote heroku"
   },
   "keywords": [],
   "author": "",
